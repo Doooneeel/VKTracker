@@ -1,3 +1,12 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="distance_very_small">12dp</dimen>
+    <dimen name="distance_small">16dp</dimen>
+    <dimen name="distance_medium">20dp</dimen>
+    <dimen name="distance_between_items">6dp</dimen>
+
+
+    <dimen name="avatar_small">56dp</dimen>
+
+
 </resources>

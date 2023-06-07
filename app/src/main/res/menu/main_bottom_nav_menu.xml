@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".main.ui.MainNavigationFragment">
+
+    <item
+        android:id="@+id/menu_item_friends"
+        android:icon="@drawable/ic_selector_groups"
+        android:title="@string/users" />
+
+    <item
+        android:id="@+id/menu_item_tracking"
+        android:icon="@drawable/ic_selector_eye"
+        android:title="@string/tracking" />
+
+    <item
+        android:id="@+id/menu_item_settings"
+        android:icon="@drawable/ic_selector_settings"
+        android:title="@string/settings" />
+
+</menu>

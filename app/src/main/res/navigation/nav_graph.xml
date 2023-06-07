@@ -1,3 +1,25 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_account_users">
+
+    <fragment
+        android:id="@+id/navigation_account_users"
+        android:label="@string/users"
+        android:name="ru.vktracker.main.ui.AccountUsersFragment"
+        tools:layout="@layout/fragment_account_users" />
+
+    <fragment
+        android:id="@+id/navigation_tracking"
+        android:label="@string/tracking"
+        android:name="ru.vktracker.main.ui.TrackingFragment"
+        tools:layout="@layout/fragment_tracking" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:label="@string/settings"
+        android:name="ru.vktracker.main.ui.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+
 </navigation>

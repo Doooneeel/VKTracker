@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">VK Tracker</string>
+    <string name="settings">Настройки</string>
+    <string name="friends">Друзья</string>
+    <string name="tracking">Отслеживание</string>
+    <string name="track">Отслеживать</string>
+    <string name="my_friends">Мои друзья</string>
+    <string name="important">Важные</string>
+    <string name="no_friends">У вас нет друзей</string>
+    <string name="no_users_in_faves">Нет пользователей в закладках</string>
+    <string name="bookmarks">Закладки</string>
+    <string name="subscribers">Подписчики</string>
+    <string name="find_user">Найти пользователя</string>
+    <string name="users">Пользователи</string>
 </resources>
