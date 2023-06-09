@@ -61,4 +61,13 @@ dependencies {
     implementation 'com.vk:android-sdk-core:3.5.1'
     //noinspection GradleDependency
     implementation 'com.vk:android-sdk-api:3.5.1'
+
+    //ROOM
+    implementation 'androidx.room:room-runtime:2.5.1'
+    annotationProcessor 'androidx.room:room-compiler:2.5.1'
+    //noinspection KaptUsageInsteadOfKsp
+    kapt 'androidx.room:room-compiler:2.5.1'
+
+    //GSON
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
