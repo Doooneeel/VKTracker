@@ -1,7 +1,6 @@
 package ru.vktracker.main.di
 
 import android.content.Context
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,8 +10,8 @@ import ru.vktracker.core.common.CoroutineDispatchers
 import ru.vktracker.core.common.CurrentTime
 import ru.vktracker.core.common.text.UsernameFormat
 import ru.vktracker.core.ui.AndroidCurrentTime
+import ru.vktracker.core.ui.HandleUiError
 import ru.vktracker.core.ui.resources.ManageResources
-import ru.vktracker.core.ui.resources.ProvidePreferences
 import java.util.Locale
 import javax.inject.Singleton
 
@@ -22,16 +21,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class CoreModule {
-
-    @Module
-    @InstallIn(SingletonComponent::class)
-    interface Bind {
-
-        @Binds
-        @Singleton
-        fun bindPreferences(resources: ManageResources): ProvidePreferences
-
-    }
 
     @Provides
     @Singleton
@@ -49,6 +38,10 @@ class CoreModule {
     @Provides
     @Singleton
     fun provideCurrentTime(): CurrentTime = AndroidCurrentTime()
+
+    @Provides
+    @Singleton
+    fun provideHandleUiError(): HandleUiError = HandleUiError.Base()
 
     @Provides
     @Singleton

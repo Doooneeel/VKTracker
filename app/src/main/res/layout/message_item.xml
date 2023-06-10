@@ -1,0 +1,9 @@
+<ru.vktracker.core.ui.view.TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/message"
+    style="@style/TextAppearance.Material3.TitleMedium"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="@dimen/distance_very_small"
+    tools:text="message" />
