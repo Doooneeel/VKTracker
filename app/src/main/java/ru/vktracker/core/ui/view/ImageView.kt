@@ -15,10 +15,13 @@ class ImageView @JvmOverloads constructor(
     context,
     attrs
 ) , AbstractView.ImageUrl {
-    override fun load(url: String) {
-        Glide.with(this)
-            .load(url)
-            .centerCrop()
-            .into(this)
+    override fun load(url: String, placeholder: Int) {
+        if (url.isNotEmpty()) {
+            Glide.with(this)
+                .load(url)
+                .placeholder(placeholder)
+                .centerCrop()
+                .into(this)
+        }
     }
 }
