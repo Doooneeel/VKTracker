@@ -12,13 +12,12 @@ import ru.vktracker.databinding.FragmentAccountUsersBinding as Binding
  * @author Danil Glazkov on 09.06.2023, 22:45
  */
 @AndroidEntryPoint
-class AccountUsersFragment : BaseFragmentNoViewModel<Binding>(ID) {
-
-    override val bind = Binding::bind
+class AccountUsersFragment : BaseFragmentNoViewModel<Binding>(ID, Binding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //todo make auth
         if (!VK.isLoggedIn()) {
             return
         }

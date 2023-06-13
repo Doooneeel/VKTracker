@@ -13,4 +13,9 @@
     <string name="subscribers">Подписчики</string>
     <string name="find_user">Найти пользователя</string>
     <string name="users">Пользователи</string>
+    <string name="to_retry">Повторить попытку</string>
+
+
+    <string name="loading_error">При загрузке данных произошла ошибка.\nПроверьте Ваше подключение к сети.</string>
+
 </resources>
