@@ -1,10 +1,12 @@
 package ru.vktracker.core.ui
 
 import android.view.LayoutInflater
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.vktracker.core.ui.diffutil.DiffUtilItemCallback
 import ru.vktracker.core.ui.diffutil.Same
 import ru.vktracker.core.ui.view.AbstractView
@@ -29,6 +31,7 @@ abstract class BasePagingDataAdapter<VH : BaseViewHolder<T>, T : Same<T>> : Pagi
         }
     }
 
-    override fun apply(lifecycle: Lifecycle, data: PagingData<T>) =
-        submitData(lifecycle, data)
+    override fun apply(scope: LifecycleCoroutineScope, data: PagingData<T>) {
+        scope.launch(Dispatchers.IO) { submitData(data) }
+    }
 }

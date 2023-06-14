@@ -1,7 +1,7 @@
 package ru.vktracker.feature.account.users.ui
 
 import android.view.ViewGroup
-import ru.vktracker.core.ui.paging.BasePagingDataAdapter
+import ru.vktracker.core.ui.BasePagingDataAdapter
 import ru.vktracker.core.ui.OnClickCallback
 import ru.vktracker.databinding.UserItemBinding
 

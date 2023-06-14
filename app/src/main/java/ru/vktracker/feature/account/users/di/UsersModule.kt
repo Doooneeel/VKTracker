@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.vktracker.core.common.text.UsernameFormat
+import ru.vktracker.core.ui.paging.ProvidePagingConfig
 import ru.vktracker.data.account.BaseAccountTrackedUsersRepository
 import ru.vktracker.data.account.cache.tracking.AccountTrackedUsersCacheDataSource
 import ru.vktracker.data.account.cache.tracking.ProvideTrackedUsersDao
@@ -19,6 +20,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class UsersModule {
+
+    @Singleton
+    @Provides
+    fun ProvidePagingConfig(): ProvidePagingConfig =
+        ProvidePagingConfig.VkApiFriends()
 
     @Singleton
     @Provides
