@@ -3,13 +3,15 @@ package ru.vktracker.core.ui
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import ru.vktracker.core.ui.diffutil.DiffUtilCallback
+import ru.vktracker.core.ui.diffutil.Same
 import ru.vktracker.core.ui.view.AbstractView
 
 /**
  * @author Danil Glazkov on 02.06.2023, 12:06
  */
-abstract class BaseAdapter<VH : BaseViewHolder<VT>, VT : DiffUtilCallback.Same<VT>> :
-    RecyclerView.Adapter<VH>(), AbstractView.List<VT> {
+abstract class BaseAdapter<VH : BaseViewHolder<VT>, VT : Same<VT>> : RecyclerView.Adapter<VH>(),
+    AbstractView.List<VT> {
 
     protected lateinit var layoutInflater: LayoutInflater
 

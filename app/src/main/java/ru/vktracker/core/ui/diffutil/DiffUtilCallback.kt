@@ -1,22 +1,14 @@
-package ru.vktracker.core.ui
+package ru.vktracker.core.ui.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
 
 /**
  * @author Danil Glazkov on 02.06.2023, 12:03
  */
-class DiffUtilCallback<T : DiffUtilCallback.Same<T>>(
+class DiffUtilCallback<T : Same<T>>(
     private val oldList: List<T>,
     private val newList: List<T>
 ) : DiffUtil.Callback() {
-
-    interface Same<T> {
-
-        fun same(data: T): Boolean
-
-        fun sameContent(data: T): Boolean
-
-    }
 
     override fun getOldListSize() = oldList.size
 

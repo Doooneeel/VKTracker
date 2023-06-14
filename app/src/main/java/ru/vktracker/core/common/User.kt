@@ -11,7 +11,7 @@ interface User {
         fun map(id: Long, name: String, avatar: String): T
     }
 
-    class Base(
+    data class Base(
         private val id: Long,
         private val name: String,
         private val avatar: String,
