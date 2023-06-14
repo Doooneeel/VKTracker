@@ -5,4 +5,8 @@ package ru.vktracker.core.ui
  */
 interface OnClickCallback<T> {
     fun onClick(data: T)
+
+    class Skip<T> : OnClickCallback<T> {
+        override fun onClick(data: T) = Unit
+    }
 }
