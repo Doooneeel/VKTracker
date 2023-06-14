@@ -3,28 +3,31 @@ package ru.vktracker.data.core
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.requests.VKRequest
+import kotlinx.coroutines.delay
+import ru.vktracker.core.common.Page
 import java.io.IOException
 
 /**
  * @author Danil Glazkov on 01.06.2023, 16:13
  */
-interface VkApiService<T> {
+interface VkApiService {
 
-    @Throws(
-        InterruptedException::class,
-        IOException::class,
-        VKApiException::class
-    )
-    suspend fun execute(): T
+    interface Paging<T> {
+        @Throws(InterruptedException::class, IOException::class, VKApiException::class)
+        suspend fun execute(page: Page): T
+    }
 
-    interface List<T> : VkApiService<kotlin.collections.List<T>>
+    interface NoPaging<T> {
+        @Throws(InterruptedException::class, IOException::class, VKApiException::class)
+        suspend fun execute(): T
+    }
 
+    abstract class AbstractPaging<T> : Paging<T> {
 
-    abstract class Abstract<T> : VkApiService<T> {
+        protected abstract fun command(page: Page): VKRequest<T>
 
-        protected abstract val command: VKRequest<T>
-
-        override suspend fun execute(): T = VK.executeSync(command)
-
+        override suspend fun execute(page: Page): T {
+            return VK.executeSync(command(page))
+        }
     }
 }
