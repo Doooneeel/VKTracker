@@ -1,6 +1,4 @@
-package ru.vktracker.feature.account.users.ui.mappers
-
-import ru.vktracker.feature.account.users.ui.AccountUserUi
+package ru.vktracker.feature.account.users.ui
 
 /**
  * @author Danil Glazkov on 02.06.2023, 12:44

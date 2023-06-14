@@ -4,8 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.vktracker.feature.account.users.domain.AccountUsersRepository
-import ru.vktracker.feature.account.users.ui.mappers.UserToUiMapper
+import ru.vktracker.core.common.text.UsernameFormat
+import ru.vktracker.data.account.BaseAccountTrackedUsersRepository
+import ru.vktracker.data.account.cache.tracking.AccountTrackedUsersCacheDataSource
+import ru.vktracker.data.account.cache.tracking.ProvideTrackedUsersDao
+import ru.vktracker.data.account.cloud.UsersCloudToUsersMapper
+import ru.vktracker.feature.account.users.domain.AccountTrackedUsersRepository
+import ru.vktracker.feature.account.users.ui.UserToUiMapper
 import javax.inject.Singleton
 
 /**
@@ -17,12 +22,24 @@ class UsersModule {
 
     @Singleton
     @Provides
-    fun provideUserToUiMapper(repository: AccountUsersRepository): UserToUiMapper =
-        UserToUiMapper.Base(repository)
+    fun provideUsersCloudToUsersMapper(usernameFormat: UsernameFormat): UsersCloudToUsersMapper {
+        return UsersCloudToUsersMapper.Base(usernameFormat)
+    }
 
     @Singleton
     @Provides
-    fun provideFavesRepository(): AccountUsersRepository {
-        TODO()
+    fun provideMapperToUi(repository: AccountTrackedUsersRepository): UserToUiMapper {
+        return UserToUiMapper.Base(repository)
     }
+
+    @Singleton
+    @Provides
+    fun provideAccountTrackedUsersRepository(
+        dao: ProvideTrackedUsersDao
+    ): AccountTrackedUsersRepository {
+        return BaseAccountTrackedUsersRepository(
+            AccountTrackedUsersCacheDataSource.Base(dao.provideTrackedUsersDao())
+        )
+    }
+
 }

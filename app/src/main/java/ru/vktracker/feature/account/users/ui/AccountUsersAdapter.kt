@@ -1,10 +1,8 @@
 package ru.vktracker.feature.account.users.ui
 
 import android.view.ViewGroup
-import ru.vktracker.core.ui.BaseAdapter
+import ru.vktracker.core.ui.paging.BasePagingDataAdapter
 import ru.vktracker.core.ui.OnClickCallback
-import ru.vktracker.databinding.HeaderItemBinding
-import ru.vktracker.databinding.MessageItemBinding
 import ru.vktracker.databinding.UserItemBinding
 
 /**
@@ -13,34 +11,14 @@ import ru.vktracker.databinding.UserItemBinding
 class AccountUsersAdapter(
     private val onProfileClickCallback: OnClickCallback<AccountUserUi>,
     private val onTrackButtonClickCallback: OnClickCallback<AccountUserUi>,
-) : BaseAdapter<AccountUsersViewHolder, AccountUserUi>() {
+) : BasePagingDataAdapter<AccountUsersViewHolder, AccountUserUi>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        BIRTHDAY -> AccountUsersViewHolder.Base(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccountUsersViewHolder {
+        return AccountUsersViewHolder.Base(
             UserItemBinding.inflate(layoutInflater, parent, false),
             onProfileClickCallback,
             onTrackButtonClickCallback
         )
-        HEADER -> AccountUsersViewHolder.Header(
-            HeaderItemBinding.inflate(layoutInflater, parent, false)
-        )
-        MESSAGE -> AccountUsersViewHolder.Message(
-            MessageItemBinding.inflate(layoutInflater, parent, false)
-        )
-        else -> throw IllegalArgumentException("unknown viewType: $viewType")
-    }
-
-    override fun getViewType(data: AccountUserUi) = when (data) {
-        is AccountUserUi.Base -> BIRTHDAY
-        is AccountUserUi.Header -> HEADER
-        is AccountUserUi.Message -> MESSAGE
-        else -> -1
-    }
-
-    companion object {
-        private const val BIRTHDAY: Int = 0
-        private const val HEADER: Int = 1
-        private const val MESSAGE: Int = 2
     }
 
 }

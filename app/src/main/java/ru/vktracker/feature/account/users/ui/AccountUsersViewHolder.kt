@@ -3,8 +3,6 @@ package ru.vktracker.feature.account.users.ui
 import android.view.View
 import ru.vktracker.core.ui.BaseViewHolder
 import ru.vktracker.core.ui.OnClickCallback
-import ru.vktracker.databinding.HeaderItemBinding
-import ru.vktracker.databinding.MessageItemBinding
 import ru.vktracker.databinding.UserItemBinding
 
 /**
@@ -21,16 +19,11 @@ abstract class AccountUsersViewHolder(item: View) : BaseViewHolder<AccountUserUi
             data.apply(binding.name, binding.avatar, binding.trackButton)
 
             binding.root.setOnClickListener { onProfileClickCallback.onClick(data) }
-            binding.trackButton.setOnClickListener { onTrackButtonClick.onClick(data) }
+            binding.trackButton.setOnClickListener {
+                data.changeTracked(binding.trackButton.isChecked)
+                onTrackButtonClick.onClick(data)
+            }
         }
-    }
-
-    class Header(private val binding: HeaderItemBinding) : AccountUsersViewHolder(binding.root) {
-        override fun bind(data: AccountUserUi) = data.applyHeader(binding.header)
-    }
-
-    class Message(private val binding: MessageItemBinding) : AccountUsersViewHolder(binding.root) {
-        override fun bind(data: AccountUserUi) = data.applyHeader(binding.message)
     }
 
 }
