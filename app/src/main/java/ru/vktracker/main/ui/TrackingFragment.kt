@@ -13,9 +13,7 @@ import javax.inject.Inject
  * @author Danil Glazkov on 08.06.2023, 03:55
  */
 //TODO move to another module
-class TrackingFragment : BaseFragment<Binding, TrackingViewModel>(ID) {
-
-    override val bind = Binding::bind
+class TrackingFragment : BaseFragment<Binding, TrackingViewModel>(ID, Binding::inflate) {
 
     override val viewModel by viewModels<TrackingViewModel>()
 

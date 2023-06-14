@@ -1,7 +1,6 @@
 package ru.vktracker.main.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -15,16 +14,12 @@ import ru.vktracker.databinding.FragmentMainNavigationBinding as Binding
  * @author Danil Glazkov on 01.06.2023, 22:28
  */
 @AndroidEntryPoint
-class MainNavigationFragment : BaseFragment<Binding, MainNavigationViewModel>(ID) {
-
-    override val bind = Binding::bind
+class MainNavigationFragment : BaseFragment<Binding, MainNavigationViewModel>(ID, Binding::inflate) {
 
     override val viewModel by viewModels<MainNavigationViewModel.Base>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d("TTTT", "mainNav")
 
         val nestedController: NavController = NavHostFragment.findNavController(
             childFragmentManager.findFragmentById(binding.navHostFragment.id)!!
