@@ -3,28 +3,28 @@ package ru.vktracker.main.ui
 import android.view.MenuItem
 import androidx.navigation.NavController
 import com.google.android.material.navigation.NavigationBarView
-import ru.vktracker.R
+import ru.vktracker.core.ui.navigation.MenuItems
 
 /**
  * @author Danil Glazkov on 02.06.2023, 17:09
  */
 class MainOnItemSelectedListener(
+    private val menuItems: MenuItems,
     private val controller: NavController,
+    private val onItemSelect: (Int) -> Unit
 ) : NavigationBarView.OnItemSelectedListener {
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val newSelectedItemId = item.itemId
+    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+        if (menuItem.isChecked) return false
 
-        controller.navigate(
-            when (newSelectedItemId) {
-                R.id.menu_item_friends -> R.id.navigation_account_users
-                R.id.menu_item_tracking -> R.id.navigation_tracking
-                R.id.menu_item_settings -> R.id.navigation_settings
-                else -> throw throw IllegalStateException("Unknown fragment: $item")
+        menuItems.items().forEachIndexed { index: Int, item ->
+            if (item.matches(menuItem.itemId)) {
+                item.navigate(controller)
+                onItemSelect.invoke(index)
+                return true
             }
-        )
-
-        return true
+        }
+        return false
     }
 
 }
