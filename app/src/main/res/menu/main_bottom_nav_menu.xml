@@ -3,7 +3,7 @@
     tools:context=".main.ui.MainNavigationFragment">
 
     <item
-        android:id="@+id/menu_item_friends"
+        android:id="@+id/menu_item_account_users"
         android:icon="@drawable/ic_selector_groups"
         android:title="@string/users" />
 
