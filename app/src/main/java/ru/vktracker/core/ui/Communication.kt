@@ -42,4 +42,8 @@ interface Communication {
         override fun put(value: T) = liveData.postValue(value)
     }
 
+    abstract class SingleUi<T : Any> : Ui<T>(SingleLiveEvent())
+
+    abstract class SinglePost<T : Any> : Post<T>(SingleLiveEvent())
+
 }
