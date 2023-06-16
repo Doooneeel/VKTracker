@@ -1,7 +1,8 @@
 package ru.vktracker.data.core.cache
 
 import android.content.SharedPreferences
-import kotlin.jvm.Throws
+import android.content.SharedPreferences.*
+import androidx.core.content.edit
 
 /**
  * @author Danil Glazkov on 09.06.2023, 23:01
@@ -9,12 +10,7 @@ import kotlin.jvm.Throws
 interface PreferencesDataStore {
 
     interface Read<T> {
-
-        @Throws(IllegalStateException::class)
-        fun read(key: String): T
-
-        fun readWithDefault(key: String, default: T): T
-
+        fun read(key: String, default: T): T
     }
 
     interface Save<T> {
@@ -24,47 +20,51 @@ interface PreferencesDataStore {
     interface Mutable<T> : Read<T>, Save<T>
 
 
-    class Str(private val preferences: SharedPreferences) : Mutable<String> {
+    abstract class Abstract<T>(private val preferences: SharedPreferences) : Mutable<T> {
 
-        override fun read(key: String): String =
-            preferences.getString(key, null) ?: throw IllegalStateException("Empty storage: $key")
+        protected abstract fun Editor.put(key: String, data: T)
 
-        override fun readWithDefault(key: String, default: String): String =
-            preferences.getString(key, default) ?: default
+        protected abstract fun SharedPreferences.get(key: String, default: T): T
 
-        override fun save(key: String, data: String) = preferences.edit()
-            .putString(key, data)
-            .apply()
+        override fun save(key: String, data: T) =
+            preferences.edit(true) { put(key, data) }
+
+        override fun read(key: String, default: T): T =
+            runCatching { preferences.get(key, default) }.getOrDefault(default)
     }
 
 
-    abstract class Json<T>(
+    class BOOLEAN(preferences: SharedPreferences) : Abstract<Boolean>(preferences) {
+        override fun Editor.put(key: String, data: Boolean) { putBoolean(key, data) }
+        override fun SharedPreferences.get(key: String, default: Boolean) = getBoolean(key, default)
+    }
+
+    class INT(preferences: SharedPreferences) : Abstract<Int>(preferences) {
+        override fun Editor.put(key: String, data: Int) { putInt(key, data) }
+        override fun SharedPreferences.get(key: String, default: Int): Int = getInt(key, default)
+    }
+
+    class STRING(preferences: SharedPreferences) : Abstract<String>(preferences) {
+        override fun Editor.put(key: String, data: String) { putString(key, data) }
+        override fun SharedPreferences.get(key: String, default: String) =
+            getString(key, default) ?: default
+    }
+
+    abstract class JSON<T>(
         preferences: SharedPreferences,
         private val serialization: Serialization,
-        private val clazz: Class<T>
-    ) : Mutable<T> {
+    ) : Abstract<T>(preferences) {
 
-        private val stringDataStore = Str(preferences)
+        protected abstract val clazz: Class<T>
 
-        override fun readWithDefault(key: String, default: T): T {
-            return try {
-                val json = stringDataStore.readWithDefault(key, "")
+        override fun Editor.put(key: String, data: T) { putString(key, serialization.toJson(data)) }
 
-                if (json.isEmpty()) {
-                    return default
-                }
-                serialization.fromJson(json, clazz)
-            } catch (exception: Exception) {
-                default
-            }
+        override fun SharedPreferences.get(key: String, default: T): T = try {
+            val json = getString(key, "") ?: ""
+            serialization.fromJson(json, clazz)
+        } catch (exception: Exception) {
+            default
         }
-
-        override fun read(key: String): T =
-            serialization.fromJson(stringDataStore.read(key), clazz)
-
-        override fun save(key: String, data: T) =
-            stringDataStore.save(key, serialization.toJson(data))
-
     }
 
 }
