@@ -11,7 +11,7 @@ class BaseMainNavigationRepository(
 ) : MainNavigationRepository {
 
     override fun lastScreenIndex(default: Int): Int =
-        preferencesDataStore.readWithDefault(LAST_SELECTED_MENU_ITEM, default)
+        preferencesDataStore.read(LAST_SELECTED_MENU_ITEM, default)
 
     override fun changeLastScreen(index: Int) =
         preferencesDataStore.save(LAST_SELECTED_MENU_ITEM, index)

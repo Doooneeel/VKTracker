@@ -25,7 +25,7 @@ class MainModule {
     @Provides
     fun provideMainNavigationRepository(resources: ManageResources): MainNavigationRepository {
         return BaseMainNavigationRepository(
-            PreferencesDataStore.Integer(
+            PreferencesDataStore.INT(
                 resources.preferences(PREFERENCES_NAME)
             )
         )
