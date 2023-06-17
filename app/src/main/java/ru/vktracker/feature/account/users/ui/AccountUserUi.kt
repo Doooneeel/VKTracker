@@ -1,6 +1,5 @@
 package ru.vktracker.feature.account.users.ui
 
-import ru.vktracker.R
 import ru.vktracker.core.ui.diffutil.Same
 import ru.vktracker.core.ui.view.AbstractView.*
 
@@ -40,7 +39,7 @@ interface AccountUserUi : Same<AccountUserUi> {
         override fun apply(name: Text, image: ImageUrl, tracked: ToggleButton) {
             name.apply(this.name)
             tracked.apply(this.tracked)
-            image.load(avatar, R.color.transparent)
+            image.load(avatar)
         }
     }
 

@@ -9,7 +9,7 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/distance_medium"
+        android:layout_margin="@dimen/distance_normal"
         android:visibility="gone" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -24,7 +24,7 @@
         android:id="@+id/tryAgainButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/distance_medium"
+        android:layout_marginTop="@dimen/distance_normal"
         android:text="@string/to_retry"
         app:icon="@drawable/ic_refresh" />
 

@@ -3,7 +3,7 @@
     style="@style/Widget.Material3.CardView.Elevated"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/distance_small"
+    android:layout_marginHorizontal="@dimen/distance_medium"
     android:layout_marginVertical="@dimen/distance_between_items"
     tools:context=".main.ui.MainActivity">
 
@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/distance_small"
-        android:paddingHorizontal="@dimen/distance_small">
+        android:padding="@dimen/distance_medium"
+        android:paddingHorizontal="@dimen/distance_medium">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="@dimen/avatar_small"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:paddingHorizontal="@dimen/distance_very_small"
+            android:paddingHorizontal="@dimen/distance_small"
             tools:text="Username" />
 
         <ru.vktracker.core.ui.view.ToggleButton
