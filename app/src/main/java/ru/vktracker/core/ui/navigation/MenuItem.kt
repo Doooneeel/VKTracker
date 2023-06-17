@@ -23,7 +23,11 @@ interface MenuItem : MatchesId {
 
         override fun matches(id: Int): Boolean = id == selectedItemId
 
-        override fun navigate(controller: NavController) = controller.navigate(destination)
+        override fun navigate(controller: NavController) {
+            if (!controller.popBackStack(destination, false)) {
+                controller.navigate(destination)
+            }
+        }
 
         override fun apply(navigationView: BottomNavigationView, graph: NavGraph) {
             navigationView.selectedItemId = selectedItemId
