@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:label="@string/settings"
-        android:name="ru.vktracker.main.ui.SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        android:name="ru.vktracker.feature.profile.ui.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

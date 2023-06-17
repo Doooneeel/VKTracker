@@ -1,21 +1,44 @@
 <resources>
+
+    <!--COMMON-->
     <string name="app_name">VK Tracker</string>
+    <string name="app_version">VK T 1.0</string>
+    <string name="about_app">О приложении</string>
+
+
     <string name="settings">Настройки</string>
+    <string name="settings_description">Кастомизация и управление</string>
+
+    <string name="statistics">Статистика</string>
+    <string name="statistics_description">Информация об отслеживании</string>
+
+
     <string name="friends">Друзья</string>
-    <string name="tracking">Отслеживание</string>
-    <string name="track">Отслеживать</string>
     <string name="my_friends">Мои друзья</string>
+    <string name="tracking">Отслеживание</string>
     <string name="important">Важные</string>
+    <string name="faves">Закладки</string>
+    <string name="profile">Профиль</string>
+    <string name="subscribers">Подписчики</string>
+    <string name="users">Пользователи</string>
+    <string name="find_user">Найти пользователя</string>
+
+
+    <!--ACTIONS-->
+    <string name="to_retry">Повторить попытку</string>
+    <string name="logout">Выйти</string>
+    <string name="cancel">Отмена</string>
+    <string name="track">Отслеживать</string>
+
+    <!--QUESTIONS-->
+    <string name="question_logout">Выйти из аккаунта?</string>
+
+    <!--MESSAGES-->
     <string name="no_friends">У вас нет друзей</string>
     <string name="no_subscribers">У вас нет подписчиков</string>
     <string name="no_users_in_faves">Нет пользователей в закладках</string>
-    <string name="faves">Закладки</string>
-    <string name="subscribers">Подписчики</string>
-    <string name="find_user">Найти пользователя</string>
-    <string name="users">Пользователи</string>
-    <string name="to_retry">Повторить попытку</string>
 
-
+    <!--ERROR MESSAGES-->
     <string name="loading_error">При загрузке данных произошла ошибка.\nПроверьте Ваше подключение к сети.</string>
 
 </resources>
