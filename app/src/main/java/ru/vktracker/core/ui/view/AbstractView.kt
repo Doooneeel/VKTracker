@@ -14,7 +14,7 @@ interface AbstractView {
     }
 
     interface ImageUrl {
-        fun load(url: String, @DrawableRes placeholder: Int)
+        fun load(url: String)
     }
 
     interface ToggleButton {
