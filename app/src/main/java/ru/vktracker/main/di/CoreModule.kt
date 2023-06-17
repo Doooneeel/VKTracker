@@ -1,6 +1,7 @@
 package ru.vktracker.main.di
 
 import android.content.Context
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,6 +13,7 @@ import ru.vktracker.core.common.text.UsernameFormat
 import ru.vktracker.core.ui.AndroidCurrentTime
 import ru.vktracker.core.ui.HandleUiError
 import ru.vktracker.core.ui.resources.ManageResources
+import ru.vktracker.data.core.cache.Serialization
 import java.util.Locale
 import javax.inject.Singleton
 
@@ -46,4 +48,8 @@ class CoreModule {
     @Provides
     @Singleton
     fun provideDispatchers(): CoroutineDispatchers = CoroutineDispatchers.Base()
+
+    @Provides
+    @Singleton
+    fun provideSerialization(): Serialization = Serialization.GSON(Gson())
 }
