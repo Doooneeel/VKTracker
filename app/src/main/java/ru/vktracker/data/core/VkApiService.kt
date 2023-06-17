@@ -22,6 +22,16 @@ interface VkApiService {
         suspend fun execute(): T
     }
 
+    abstract class AbstractNoPaging<T> : NoPaging<T> {
+
+        protected abstract fun command(): VKRequest<T>
+
+        override suspend fun execute(): T {
+            return VK.executeSync(command())
+        }
+
+    }
+
     abstract class AbstractPaging<T> : Paging<T> {
 
         protected abstract fun command(page: Page): VKRequest<T>
@@ -29,5 +39,6 @@ interface VkApiService {
         override suspend fun execute(page: Page): T {
             return VK.executeSync(command(page))
         }
+
     }
 }

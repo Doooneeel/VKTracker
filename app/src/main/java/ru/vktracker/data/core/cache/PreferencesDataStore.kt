@@ -59,12 +59,10 @@ interface PreferencesDataStore {
 
         override fun Editor.put(key: String, data: T) { putString(key, serialization.toJson(data)) }
 
-        override fun SharedPreferences.get(key: String, default: T): T = try {
-            val json = getString(key, "") ?: ""
+        override fun SharedPreferences.get(key: String, default: T): T = runCatching {
+            val json = getString(key, "") ?: return default
             serialization.fromJson(json, clazz)
-        } catch (exception: Exception) {
-            default
-        }
+        }.getOrDefault(default)
     }
 
 }
