@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     tools:parentTag="androidx.appcompat.widget.LinearLayoutCompat">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView"
         android:layout_width="@dimen/icon_small"
         android:layout_height="@dimen/icon_small"
