@@ -11,32 +11,33 @@ import javax.inject.Inject
 /**
  * @author Danil Glazkov on 01.06.2023, 22:29
  */
-interface MainNavigationViewModel : BaseViewModel, LastSelectedMenuItemCommunication.Observe, Init {
+interface MainNavigationViewModel : BaseViewModel, MenuItemCommunication.Observe, Init {
 
-    fun changeLastSelectedScreen(index: Int)
+    fun changeLastSelectedTab(position: Int)
 
 
     @HiltViewModel
     class Base @Inject constructor(
         private val repository: MainNavigationRepository,
-        private val communication: LastSelectedMenuItemCommunication,
+        private val communication: MenuItemCommunication,
         dispatchers: CoroutineDispatchers
     ) : BaseViewModel.Abstract(dispatchers),
         MainNavigationViewModel
     {
         override fun init(isFistRun: Boolean) {
             if (isFistRun) communication.put(
-                LastSelectedMenuItem.Base(
-                    repository.lastScreenIndex(DEFAULT_MENU_ITEM)
+                SelectedMenuItem.Base(
+                    repository.lastSelectedPosition(DEFAULT_MENU_ITEM)
                 )
             )
         }
 
-        override fun changeLastSelectedScreen(index: Int) = repository.changeLastScreen(index)
+        override fun changeLastSelectedTab(position: Int) =
+            repository.changeSelectedPosition(position)
 
-        override fun observeLastSelectedItem(
+        override fun observeMenuItem(
             owner: LifecycleOwner,
-            observer: Observer<LastSelectedMenuItem>
+            observer: Observer<SelectedMenuItem>
         ) = communication.observe(owner, observer)
 
         companion object {

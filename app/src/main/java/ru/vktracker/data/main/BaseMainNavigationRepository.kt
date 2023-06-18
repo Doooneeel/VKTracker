@@ -1,4 +1,4 @@
-package ru.vktracker.main.data
+package ru.vktracker.data.main
 
 import ru.vktracker.data.core.cache.PreferencesDataStore
 import ru.vktracker.main.ui.MainNavigationRepository
@@ -10,11 +10,11 @@ class BaseMainNavigationRepository(
     private val preferencesDataStore: PreferencesDataStore.Mutable<Int>
 ) : MainNavigationRepository {
 
-    override fun lastScreenIndex(default: Int): Int =
+    override fun lastSelectedPosition(default: Int): Int =
         preferencesDataStore.read(LAST_SELECTED_MENU_ITEM, default)
 
-    override fun changeLastScreen(index: Int) =
-        preferencesDataStore.save(LAST_SELECTED_MENU_ITEM, index)
+    override fun changeSelectedPosition(position: Int) =
+        preferencesDataStore.save(LAST_SELECTED_MENU_ITEM, position)
 
     companion object {
         private const val LAST_SELECTED_MENU_ITEM = "lastSelectedMenuItemKey"
