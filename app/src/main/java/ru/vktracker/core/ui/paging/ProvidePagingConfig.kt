@@ -9,17 +9,12 @@ interface ProvidePagingConfig {
 
     fun config(): PagingConfig
 
-    class VkApiFriends : ProvidePagingConfig {
 
+    class Base : ProvidePagingConfig {
         override fun config() = PagingConfig(
-            pageSize = PAGE_SIZE,
-            initialLoadSize = INIT_LOAD_SIZE,
+            pageSize = 5,
+            initialLoadSize = 8,
             enablePlaceholders = true
         )
-
-        companion object {
-            private const val PAGE_SIZE = 5
-            private const val INIT_LOAD_SIZE = 8
-        }
     }
 }

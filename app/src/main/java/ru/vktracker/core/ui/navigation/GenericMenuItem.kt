@@ -9,7 +9,7 @@ import ru.vktracker.core.common.MatchesId
 /**
  * @author Danil Glazkov on 15.06.2023, 22:42
  */
-interface MenuItem : MatchesId {
+interface GenericMenuItem : MatchesId {
 
     fun apply(navigationView: BottomNavigationView, graph: NavGraph)
 
@@ -19,7 +19,7 @@ interface MenuItem : MatchesId {
     class Base(
         @IdRes private val selectedItemId: Int,
         private val destination: Int,
-    ) : MenuItem {
+    ) : GenericMenuItem {
 
         override fun matches(id: Int): Boolean = id == selectedItemId
 
