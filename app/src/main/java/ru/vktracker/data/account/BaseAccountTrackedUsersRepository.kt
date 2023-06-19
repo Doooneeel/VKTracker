@@ -1,7 +1,7 @@
 package ru.vktracker.data.account
 
 import ru.vktracker.data.account.cache.tracking.AccountTrackedUsersCacheDataSource
-import ru.vktracker.feature.account.users.domain.AccountTrackedUsersRepository
+import ru.vktracker.feature.users.domain.AccountTrackedUsersRepository
 
 /**
  * @author Danil Glazkov on 10.06.2023, 23:46
