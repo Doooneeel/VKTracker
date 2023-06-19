@@ -11,7 +11,6 @@ import ru.vktracker.core.common.CoroutineDispatchers
 import ru.vktracker.core.common.CurrentTime
 import ru.vktracker.core.common.text.UsernameFormat
 import ru.vktracker.core.ui.AndroidCurrentTime
-import ru.vktracker.core.ui.HandleUiError
 import ru.vktracker.core.ui.resources.ManageResources
 import ru.vktracker.data.core.cache.Serialization
 import java.util.Locale
@@ -40,10 +39,6 @@ class CoreModule {
     @Provides
     @Singleton
     fun provideCurrentTime(): CurrentTime = AndroidCurrentTime()
-
-    @Provides
-    @Singleton
-    fun provideHandleUiError(): HandleUiError = HandleUiError.Base()
 
     @Provides
     @Singleton
