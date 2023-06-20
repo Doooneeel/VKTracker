@@ -7,6 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.vktracker.R
 import ru.vktracker.core.ui.BaseFragment
 import ru.vktracker.core.ui.OnThrottleClickListener
+import ru.vktracker.core.ui.dialog.AbstractAlertDialog
 import ru.vktracker.databinding.FragmentProfileBinding as Binding
 
 /**
@@ -22,10 +23,15 @@ class ProfileFragment : BaseFragment<Binding, ProfileViewModel>(ID, Binding::inf
 
         viewModel.observeProfileUi(viewLifecycleOwner) { profile: ProfileUi ->
             profile.apply(binding.userIdTextView, binding.usernameTextView, binding.avatarImageView)
+            binding.usernameTextView.isSelected = true
+        }
+
+        viewModel.observeLogoutDialog(viewLifecycleOwner) { logoutDialog: AbstractAlertDialog ->
+            logoutDialog.show(requireContext(), lifecycle)
         }
 
         binding.logoutImageButton.setOnClickListener(OnThrottleClickListener.SingleMedium {
-            //todo handle click
+            viewModel.showLogoutDialog()
         })
 
         viewModel.init(savedInstanceState == null)

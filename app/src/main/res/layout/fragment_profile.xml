@@ -1,4 +1,5 @@
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,7 +7,6 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/skeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -15,10 +15,9 @@
             android:layout_width="@dimen/avatar_small"
             android:layout_height="@dimen/avatar_small"
             android:layout_margin="@dimen/distance_medium"
-            app:shapeAppearanceOverlay="@style/RoundedImageViewOverlay" />
+            app:shapeAppearanceOverlay="@style/ThemeOverlayRoundedImageView" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/skeletonLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -30,6 +29,10 @@
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
                 tools:text="######## ########" />
 
             <ru.vktracker.core.ui.view.TextView
@@ -39,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/distance_very_small"
                 android:layout_marginEnd="@dimen/distance_medium"
+                android:singleLine="true"
                 android:textStyle="bold"
                 tools:text="########" />
 
@@ -58,12 +62,12 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView"
         style="@style/Widget.Material3.CardView.Outlined"
+        app:strokeColor="?attr/colorOnSecondaryFixedVariant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/distance_medium"
-        android:layout_marginTop="@dimen/distance_normal"
+        android:layout_marginTop="@dimen/distance_medium"
         app:cardElevation="2dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -71,34 +75,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ru.vktracker.feature.profile.ui.view.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingVertical="@dimen/distance_normal"
+            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
+                style="@style/ProfileMenuItemStyle"
                 app:descriptionText="@string/settings_description"
                 app:icon="@drawable/ic_settings_outline"
                 app:titleText="@string/settings" />
 
             <com.google.android.material.divider.MaterialDivider
+                app:dividerColor="?attr/colorOnSecondaryFixedVariant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <ru.vktracker.feature.profile.ui.view.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingVertical="@dimen/distance_normal"
+            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
+                style="@style/ProfileMenuItemStyle"
                 app:descriptionText="@string/statistics_description"
                 app:icon="@drawable/ic_leaderboard_outline"
                 app:titleText="@string/statistics" />
 
             <com.google.android.material.divider.MaterialDivider
+                app:dividerColor="?attr/colorOnSecondaryFixedVariant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <ru.vktracker.feature.profile.ui.view.ItemLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingVertical="@dimen/distance_normal"
+            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
+                style="@style/ProfileMenuItemStyle"
                 app:descriptionText="@string/app_version"
                 app:icon="@drawable/ic_info_outline"
                 app:titleText="@string/about_app" />

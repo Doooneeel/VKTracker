@@ -29,6 +29,14 @@ interface ProfileUi {
             name.apply(this.name)
             avatar.load(this.avatar)
         }
+    }
+
+
+    object Error : ProfileUi {
+
+        override fun apply(id: Text, name: Text, avatar: ImageUrl) = Unit
+
+        override fun <T> map(mapper: Mapper<T>): T = mapper.map("", "", "")
 
     }
 
