@@ -1,18 +1,20 @@
 <resources>
 
     <!--DISTANCE-->
-    <dimen name="distance_very_small">4dp</dimen>
+    <dimen name="distance_tiny">4dp</dimen>
     <dimen name="distance_small">8dp</dimen>
     <dimen name="distance_medium">16dp</dimen>
     <dimen name="distance_normal">20dp</dimen>
+    <dimen name="distance_large">32dp</dimen>
+    <dimen name="distance_huge">64dp</dimen>
 
     <!--RADIUS-->
-    <dimen name="radius_very_small">6dp</dimen>
+    <dimen name="radius_tiny">6dp</dimen>
 
 
     <!--ICONS-->
-    <dimen name="avatar_small">56dp</dimen>
-    <dimen name="icon_small">32dp</dimen>
+    <dimen name="icon_tiny">32dp</dimen>
+    <dimen name="icon_small">42dp</dimen>
     <dimen name="icon_medium">40dp</dimen>
     <dimen name="icon_normal">56dp</dimen>
     <dimen name="icon_large">82dp</dimen>
