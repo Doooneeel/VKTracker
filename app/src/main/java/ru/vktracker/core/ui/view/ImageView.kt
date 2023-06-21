@@ -10,10 +10,12 @@ import com.google.android.material.imageview.ShapeableImageView
  */
 class ImageView @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : ShapeableImageView(
     context,
-    attrs
+    attrs,
+    defStyleAttr
 ) , AbstractView.ImageUrl {
 
     init {
