@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="ProfileMenuItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingVertical">@dimen/distance_medium</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/ripple_effect</item>
+    </style>
+
+</resources>

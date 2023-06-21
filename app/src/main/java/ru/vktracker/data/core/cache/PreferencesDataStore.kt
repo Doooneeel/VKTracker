@@ -29,7 +29,8 @@ interface PreferencesDataStore {
         override fun save(key: String, data: T) =
             preferences.edit(true) { put(key, data) }
 
-        override fun read(key: String, default: T): T = preferences.get(key, default)
+        override fun read(key: String, default: T): T =
+            runCatching { preferences.get(key, default) }.getOrDefault(default)
     }
 
 
@@ -58,12 +59,10 @@ interface PreferencesDataStore {
 
         override fun Editor.put(key: String, data: T) { putString(key, serialization.toJson(data)) }
 
-        override fun SharedPreferences.get(key: String, default: T): T = try {
-            val json = getString(key, "") ?: ""
+        override fun SharedPreferences.get(key: String, default: T): T = runCatching {
+            val json = getString(key, "") ?: return default
             serialization.fromJson(json, clazz)
-        } catch (exception: Exception) {
-            default
-        }
+        }.getOrDefault(default)
     }
 
 }

@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="ThemeOverlayRoundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ThemeOverlay.Material3.MaterialAlertDialog.IconPrimaryColor"
+        parent="@style/ThemeOverlay.Material3.MaterialAlertDialog">
+
+        <item name="materialAlertDialogTitleIconStyle">
+            @style/MaterialAlertDialog.Material3.Title.Icon.Primary
+        </item>
+
+    </style>
+
+</resources>

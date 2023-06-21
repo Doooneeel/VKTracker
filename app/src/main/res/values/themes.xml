@@ -1,4 +1,7 @@
 <resources>
-    <style name="Base.Theme.VKTracker" parent="Theme.Material3.DayNight.NoActionBar"/>
+    <style name="Base.Theme.VKTracker" parent="Theme.Material3.DayNight.NoActionBar">
+
+    </style>
+
     <style name="Theme.VKTracker" parent="Base.Theme.VKTracker" />
 </resources>

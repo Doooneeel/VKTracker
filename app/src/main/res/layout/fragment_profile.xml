@@ -1,0 +1,112 @@
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ru.vktracker.core.ui.view.ImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="@dimen/icon_normal"
+            android:layout_height="@dimen/icon_normal"
+            android:layout_margin="@dimen/distance_medium"
+            app:shapeAppearanceOverlay="@style/ThemeOverlayRoundedImageView" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ru.vktracker.core.ui.view.TextView
+                android:id="@+id/usernameTextView"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                tools:text="######## ########" />
+
+            <ru.vktracker.core.ui.view.TextView
+                android:id="@+id/userIdTextView"
+                style="@style/TextAppearance.Material3.BodySmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_tiny"
+                android:layout_marginEnd="@dimen/distance_medium"
+                android:singleLine="true"
+                android:textStyle="bold"
+                tools:text="########" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logoutImageButton"
+            style="@style/ThemeOverlay.Material3.Button.ElevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/distance_medium"
+            android:layout_weight="0"
+            android:text="@string/logout"
+            app:icon="@drawable/ic_logout" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/distance_medium"
+        android:layout_marginTop="@dimen/distance_medium"
+        app:cardElevation="2dp"
+        app:strokeColor="?attr/colorOnSecondaryFixedVariant">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
+                android:id="@+id/settingsMenuItemLayout"
+                style="@style/ProfileMenuItemStyle"
+                app:descriptionText="@string/settings_description"
+                app:icon="@drawable/ic_settings_outline"
+                app:titleText="@string/settings" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerColor="?attr/colorOnSecondaryFixedVariant" />
+
+            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
+                android:id="@+id/statisticsMenuItemLayout"
+                style="@style/ProfileMenuItemStyle"
+                app:descriptionText="@string/statistics_description"
+                app:icon="@drawable/ic_leaderboard_outline"
+                app:titleText="@string/statistics" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerColor="?attr/colorOnSecondaryFixedVariant" />
+
+            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
+                android:id="@+id/aboutAppMenuItemLayout"
+                style="@style/ProfileMenuItemStyle"
+                app:descriptionText="@string/app_version"
+                app:icon="@drawable/ic_info_outline"
+                app:titleText="@string/about_app" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/navigation_account_users"
         android:label="@string/users"
-        android:name="ru.vktracker.feature.account.users.ui.AccountUsersFragment"
+        android:name="ru.vktracker.feature.users.ui.AccountUsersFragment"
         tools:layout="@layout/fragment_account_users" />
 
     <fragment
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:label="@string/settings"
-        android:name="ru.vktracker.main.ui.SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        android:name="ru.vktracker.feature.profile.ui.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>
