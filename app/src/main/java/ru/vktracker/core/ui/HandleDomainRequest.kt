@@ -12,17 +12,17 @@ interface HandleDomainRequest<T> {
 
 
     abstract class AbstractWithMapper<D, U>(
-        private val dispatchers: CoroutineDispatchers,
+        private val dispatchers: CoroutineDispatchers
     ) : HandleDomainRequest<D> {
 
         protected abstract fun launchUi(result: U)
 
-        protected abstract suspend fun map(response: D): U
+        protected abstract suspend fun mapOnBackground(response: D): U
 
         override fun handle(scope: CoroutineScope, block: suspend () -> D) {
             dispatchers.io(scope) {
                 val response: D = block.invoke()
-                val result: U = map(response)
+                val result: U = mapOnBackground(response)
 
                 dispatchers.changeToUi {
                     launchUi(result)
@@ -32,8 +32,9 @@ interface HandleDomainRequest<T> {
     }
 
     abstract class Abstract<T>(
-        private val dispatchers: CoroutineDispatchers,
+        private val dispatchers: CoroutineDispatchers
     ) : HandleDomainRequest<T> {
+
         protected abstract fun launchUi(response: T)
 
         override fun handle(scope: CoroutineScope, block: suspend () -> T) {
