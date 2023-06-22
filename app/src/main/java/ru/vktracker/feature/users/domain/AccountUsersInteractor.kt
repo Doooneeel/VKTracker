@@ -2,7 +2,7 @@ package ru.vktracker.feature.users.domain
 
 import ru.vktracker.core.common.CurrentTime
 import ru.vktracker.core.common.Page
-import ru.vktracker.core.common.User
+import ru.vktracker.core.common.user.User
 
 /**
  * @author Danil Glazkov on 10.06.2023, 02:43

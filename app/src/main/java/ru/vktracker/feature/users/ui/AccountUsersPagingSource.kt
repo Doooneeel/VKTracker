@@ -1,7 +1,7 @@
 package ru.vktracker.feature.users.ui
 
 import ru.vktracker.core.common.Page
-import ru.vktracker.core.common.User
+import ru.vktracker.core.common.user.User
 import ru.vktracker.core.ui.paging.VkApiPagingSource
 import ru.vktracker.feature.users.domain.AccountUsersInteractor
 
