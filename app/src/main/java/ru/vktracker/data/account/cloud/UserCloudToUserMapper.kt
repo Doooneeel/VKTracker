@@ -1,7 +1,7 @@
 package ru.vktracker.data.account.cloud
 
 import com.vk.sdk.api.users.dto.UsersUserFull
-import ru.vktracker.core.common.User
+import ru.vktracker.core.common.user.User
 import ru.vktracker.core.common.text.UsernameFormat
 
 /**
