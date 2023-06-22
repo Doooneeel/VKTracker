@@ -9,9 +9,9 @@ interface CoroutineDispatchers {
 
     suspend fun changeToUi(block: suspend CoroutineScope. () -> Unit)
 
-     fun ui(scope: CoroutineScope, block: suspend CoroutineScope.() -> Unit): Job
+    fun ui(scope: CoroutineScope, block: suspend CoroutineScope.() -> Unit): Job
 
-     fun io(scope: CoroutineScope, block: suspend CoroutineScope.() -> Unit): Job
+    fun io(scope: CoroutineScope, block: suspend CoroutineScope.() -> Unit): Job
 
 
     abstract class Abstract(
@@ -21,13 +21,13 @@ interface CoroutineDispatchers {
 
         override fun io(
             scope: CoroutineScope,
-            block: suspend CoroutineScope.() -> Unit
-        ) : Job = scope.launch(background, block = block)
+            block: suspend CoroutineScope.() -> Unit,
+        ): Job = scope.launch(background, block = block)
 
         override fun ui(
             scope: CoroutineScope,
-            block: suspend CoroutineScope.() -> Unit
-        ) : Job = scope.launch(ui, block = block)
+            block: suspend CoroutineScope.() -> Unit,
+        ): Job = scope.launch(ui, block = block)
 
         override suspend fun changeToUi(block: suspend CoroutineScope.() -> Unit) =
             withContext(ui, block)

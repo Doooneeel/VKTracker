@@ -1,4 +1,4 @@
-package ru.vktracker.core.common
+package ru.vktracker.core.common.user
 
 /**
  * @author Danil Glazkov on 04.06.2023, 20:59
