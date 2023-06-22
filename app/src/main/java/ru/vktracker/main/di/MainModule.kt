@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ru.vktracker.core.ui.resources.ManageResources
 import ru.vktracker.data.core.cache.PreferencesDataStore
-import ru.vktracker.main.data.BaseMainNavigationRepository
-import ru.vktracker.main.ui.LastSelectedMenuItemCommunication
+import ru.vktracker.data.main.BaseMainNavigationRepository
+import ru.vktracker.main.ui.MenuItemCommunication
 import ru.vktracker.main.ui.MainNavigationRepository
 
 /**
@@ -18,8 +18,8 @@ import ru.vktracker.main.ui.MainNavigationRepository
 class MainModule {
 
     @Provides
-    fun provideCommunication(): LastSelectedMenuItemCommunication {
-        return LastSelectedMenuItemCommunication.Base()
+    fun provideCommunication(): MenuItemCommunication {
+        return MenuItemCommunication.Base()
     }
 
     @Provides

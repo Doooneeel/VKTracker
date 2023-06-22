@@ -5,8 +5,8 @@ package ru.vktracker.main.ui
  */
 interface MainNavigationRepository {
 
-    fun lastScreenIndex(default: Int): Int
+    fun lastSelectedPosition(default: Int): Int
 
-    fun changeLastScreen(index: Int)
+    fun changeSelectedPosition(position: Int)
 
 }

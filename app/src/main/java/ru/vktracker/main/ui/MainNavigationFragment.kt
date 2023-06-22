@@ -7,7 +7,8 @@ import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.vktracker.R
 import ru.vktracker.core.ui.BaseFragment
-import ru.vktracker.core.ui.navigation.MenuItem
+import ru.vktracker.core.ui.GenericOnItemSelectedListener
+import ru.vktracker.core.ui.navigation.GenericMenuItem
 import ru.vktracker.databinding.FragmentMainNavigationBinding as Binding
 
 /**
@@ -16,13 +17,12 @@ import ru.vktracker.databinding.FragmentMainNavigationBinding as Binding
 @AndroidEntryPoint
 class MainNavigationFragment : BaseFragment<Binding, MainNavigationViewModel>(ID, Binding::inflate) {
 
-    private val mainMenuItems = MainNavigationMenuItems()
-
     override val viewModel by viewModels<MainNavigationViewModel.Base>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mainMenuItems = MainNavigationMenuItems()
         val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment)
 
         val navController = (navHostFragment as NavHostFragment).navController
@@ -30,13 +30,13 @@ class MainNavigationFragment : BaseFragment<Binding, MainNavigationViewModel>(ID
         navController.graph = navGraph
 
         binding.bottomNavigationView.setOnItemSelectedListener(
-            MainOnItemSelectedListener(mainMenuItems, navController) { screenIndex: Int ->
-                viewModel.changeLastSelectedScreen(screenIndex)
+            GenericOnItemSelectedListener(mainMenuItems, navController) { tabPosition: Int ->
+                viewModel.changeLastSelectedTab(tabPosition)
             }
         )
 
-        viewModel.observeLastSelectedItem(viewLifecycleOwner) { lastSelectedScreen ->
-            val item: MenuItem = lastSelectedScreen.lastSelectedMenuItem(source = mainMenuItems)
+        viewModel.observeMenuItem(viewLifecycleOwner) { lastSelectedTab ->
+            val item: GenericMenuItem = lastSelectedTab.selectedMenuItem(mainMenuItems)
             item.apply(binding.bottomNavigationView, navGraph)
         }
 

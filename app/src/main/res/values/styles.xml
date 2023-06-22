@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="MaterialAlertDialog.Material3.Title.Icon.Primary" parent="@style/MaterialAlertDialog.Material3.Title.Icon">
+        <item name="android:tint">?attr/colorPrimary</item>
+    </style>
+
+</resources>
