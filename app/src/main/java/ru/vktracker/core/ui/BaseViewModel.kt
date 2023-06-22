@@ -10,13 +10,14 @@ import ru.vktracker.core.common.CoroutineDispatchers
  */
 interface BaseViewModel {
 
-    fun <T> handle(block: suspend () -> T): Job
+    object Unit : BaseViewModel
+
 
     abstract class Abstract(
         private val dispatchers: CoroutineDispatchers
     ) : ViewModel(), BaseViewModel {
 
-        override fun <T> handle(block: suspend () -> T): Job {
+        protected fun <T> handle(block: suspend () -> T): Job {
             return dispatchers.io(viewModelScope) {
                 block.invoke()
             }

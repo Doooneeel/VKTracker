@@ -1,6 +1,5 @@
 package ru.vktracker.core.ui.view
 
-import androidx.annotation.DrawableRes
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.PagingData
 
@@ -27,6 +26,14 @@ interface AbstractView {
 
     interface PagingList<T : Any> {
         fun apply(scope: LifecycleCoroutineScope, data: PagingData<T>)
+    }
+
+    interface Position {
+
+        fun apply(position: Int)
+
+        fun currentPosition(): Int
+
     }
 
 }
