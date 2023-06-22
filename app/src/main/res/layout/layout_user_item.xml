@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/distance_medium"
-    android:layout_marginVertical="@dimen/distance_very_small"
+    android:layout_marginVertical="@dimen/distance_tiny"
     tools:context=".main.ui.MainActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -15,8 +15,8 @@
         android:paddingHorizontal="@dimen/distance_medium">
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="@dimen/avatar_small"
-            android:layout_height="@dimen/avatar_small"
+            android:layout_width="@dimen/icon_normal"
+            android:layout_height="@dimen/icon_normal"
             android:layout_gravity="center_vertical">
 
             <ru.vktracker.core.ui.view.ImageView

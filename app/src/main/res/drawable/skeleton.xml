@@ -3,5 +3,5 @@
     android:layout_height="wrap_content">
 
     <solid android:color="@color/black" />
-    <corners android:radius="@dimen/radius_very_small" />
+    <corners android:radius="@dimen/radius_tiny" />
 </shape>

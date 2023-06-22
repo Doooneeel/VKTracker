@@ -13,11 +13,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class BottomNavigationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
 ) : BottomNavigationView(
     context,
     attrs,
-    defStyleAttr
 ) , AbstractView.Position {
 
     override fun apply(position: Int) {

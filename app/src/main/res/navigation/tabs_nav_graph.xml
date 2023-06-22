@@ -1,0 +1,10 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tabs_graph"
+    app:startDestination="@id/account_users">
+
+    <include app:graph="@navigation/account_users" />
+    <include app:graph="@navigation/tracking" />
+    <include app:graph="@navigation/profile" />
+
+</navigation>

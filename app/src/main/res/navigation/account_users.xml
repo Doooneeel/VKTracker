@@ -1,0 +1,13 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account_users"
+    app:startDestination="@id/navigation_account_users">
+
+    <fragment
+        android:id="@+id/navigation_account_users"
+        android:name="ru.vktracker.feature.users.ui.AccountUsersFragment"
+        tools:layout="@layout/fragment_account_users"
+        android:label="AccountUsersFragment" />
+
+</navigation>

@@ -4,11 +4,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import ru.vktracker.core.ui.navigation.LastPositionCommunication
+import ru.vktracker.core.ui.navigation.ScreenCommunication
 import ru.vktracker.core.ui.resources.ManageResources
 import ru.vktracker.data.core.cache.PreferencesDataStore
 import ru.vktracker.data.main.BaseMainNavigationRepository
-import ru.vktracker.main.ui.MenuItemCommunication
+import ru.vktracker.main.domain.MainInteractor
 import ru.vktracker.main.ui.MainNavigationRepository
+import javax.inject.Qualifier
 
 /**
  * @author Danil Glazkov on 15.06.2023, 21:50
@@ -17,10 +20,12 @@ import ru.vktracker.main.ui.MainNavigationRepository
 @InstallIn(ViewModelComponent::class)
 class MainModule {
 
+    @Qualifier
+    annotation class ModuleQualifier
+
     @Provides
-    fun provideCommunication(): MenuItemCommunication {
-        return MenuItemCommunication.Base()
-    }
+    @ModuleQualifier
+    fun provideCommunication(): LastPositionCommunication = LastPositionCommunication.Base()
 
     @Provides
     fun provideMainNavigationRepository(resources: ManageResources): MainNavigationRepository {
@@ -30,6 +35,13 @@ class MainModule {
             )
         )
     }
+
+    @Provides
+    @ModuleQualifier
+    fun provideScreenCommunication(): ScreenCommunication = ScreenCommunication.Base()
+
+    @Provides
+    fun provideMainInteractor(): MainInteractor = MainInteractor.Base()
 
     companion object {
         private const val PREFERENCES_NAME = "mainNavigationSharedPreferences"

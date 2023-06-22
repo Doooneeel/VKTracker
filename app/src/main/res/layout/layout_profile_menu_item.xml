@@ -11,8 +11,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/icon_small"
-        android:layout_height="@dimen/icon_small"
+        android:layout_width="@dimen/icon_tiny"
+        android:layout_height="@dimen/icon_tiny"
         android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="@dimen/distance_normal"
         app:tint="?attr/colorPrimary"
@@ -27,7 +27,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/titleTextView"
-            style="@style/TextAppearance.Material3.TitleMedium"
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
@@ -35,11 +35,12 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/descriptionTextView"
-            style="@style/TextAppearance.Material3.BodyMedium"
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/distance_very_small"
+            android:layout_marginTop="@dimen/distance_tiny"
             tools:text="Description" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

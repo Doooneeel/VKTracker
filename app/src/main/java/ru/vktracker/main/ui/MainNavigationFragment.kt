@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.google.android.material.elevation.SurfaceColors
 import dagger.hilt.android.AndroidEntryPoint
 import ru.vktracker.R
 import ru.vktracker.core.ui.BaseFragment
-import ru.vktracker.core.ui.GenericOnItemSelectedListener
-import ru.vktracker.core.ui.navigation.GenericMenuItem
 import ru.vktracker.databinding.FragmentMainNavigationBinding as Binding
 
 /**
@@ -22,27 +23,24 @@ class MainNavigationFragment : BaseFragment<Binding, MainNavigationViewModel>(ID
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainMenuItems = MainNavigationMenuItems()
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        requireActivity().window.navigationBarColor =
+            SurfaceColors.SURFACE_2.getColor(requireContext())
 
-        val navController = (navHostFragment as NavHostFragment).navController
-        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-        navController.graph = navGraph
+        val navHost = childFragmentManager.findFragmentById(R.id.tabs_nav_host_fragment) as NavHostFragment
 
-        binding.bottomNavigationView.setOnItemSelectedListener(
-            GenericOnItemSelectedListener(mainMenuItems, navController) { tabPosition: Int ->
-                viewModel.changeLastSelectedTab(tabPosition)
-            }
-        )
+        setupWithNavController(binding.bottomNavigationView, navHost.navController)
 
-        viewModel.observeMenuItem(viewLifecycleOwner) { lastSelectedTab ->
-            val item: GenericMenuItem = lastSelectedTab.selectedMenuItem(mainMenuItems)
-            item.apply(binding.bottomNavigationView, navGraph)
+        viewModel.observeLastPosition(viewLifecycleOwner) { lastPosition ->
+            lastPosition.apply(binding.bottomNavigationView)
         }
 
         viewModel.init(savedInstanceState == null)
     }
 
+    override fun onPause() {
+        viewModel.changeLastSelectedTab(binding.bottomNavigationView.currentPosition())
+        super.onPause()
+    }
 
     companion object {
         private val ID = R.layout.fragment_main_navigation

@@ -3,17 +3,17 @@
     tools:context=".main.ui.MainNavigationFragment">
 
     <item
-        android:id="@+id/menu_item_account_users"
+        android:id="@id/account_users"
         android:icon="@drawable/ic_selector_groups"
         android:title="@string/users" />
 
     <item
-        android:id="@+id/menu_item_tracking"
+        android:id="@id/tracking"
         android:icon="@drawable/ic_selector_eye"
         android:title="@string/tracking" />
 
     <item
-        android:id="@+id/menu_item_settings"
+        android:id="@id/profile"
         android:icon="@drawable/ic_selector_account_circle"
         android:title="@string/profile" />
 
