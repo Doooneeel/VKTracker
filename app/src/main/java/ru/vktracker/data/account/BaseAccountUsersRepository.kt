@@ -1,7 +1,7 @@
 package ru.vktracker.data.account
 
 import ru.vktracker.core.common.Page
-import ru.vktracker.core.common.User
+import ru.vktracker.core.common.user.User
 import ru.vktracker.data.account.cloud.faves.AccountFavesCloudDataSource
 import ru.vktracker.data.account.cloud.friends.AccountFriendsCloudDataSource
 import ru.vktracker.data.account.cloud.subscribers.AccountSubscribersCloudDataSource

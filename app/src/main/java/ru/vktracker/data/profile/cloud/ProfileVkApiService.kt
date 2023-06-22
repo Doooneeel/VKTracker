@@ -14,7 +14,8 @@ interface ProfileVkApiService : VkApiService.NoPaging<AccountUserSettings> {
 
         private val service = AccountService()
 
-        override fun command(): VKRequest<AccountUserSettings> = service.accountGetProfileInfo()
+        override fun command(): VKRequest<AccountUserSettings> =
+            service.accountGetProfileInfo()
 
     }
 }

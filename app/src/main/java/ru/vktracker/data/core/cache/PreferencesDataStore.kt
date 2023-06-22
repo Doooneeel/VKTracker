@@ -53,9 +53,8 @@ interface PreferencesDataStore {
     abstract class JSON<T>(
         preferences: SharedPreferences,
         private val serialization: Serialization,
+        private val clazz: Class<T>
     ) : Abstract<T>(preferences) {
-
-        protected abstract val clazz: Class<T>
 
         override fun Editor.put(key: String, data: T) { putString(key, serialization.toJson(data)) }
 

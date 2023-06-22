@@ -3,7 +3,6 @@ package ru.vktracker.data.core
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.exceptions.VKApiException
 import com.vk.api.sdk.requests.VKRequest
-import kotlinx.coroutines.delay
 import ru.vktracker.core.common.Page
 import java.io.IOException
 
