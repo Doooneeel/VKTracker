@@ -1,7 +1,6 @@
 package ru.vktracker.data.profile
 
-import ru.vktracker.core.common.User
-import ru.vktracker.data.profile.cache.ProfileCache
+import ru.vktracker.core.common.user.User
 import ru.vktracker.data.profile.cache.ProfileCacheDataSource
 import ru.vktracker.data.profile.cloud.ProfileCloudDataSource
 import ru.vktracker.feature.profile.domain.ProfileRepository
@@ -12,17 +11,14 @@ import ru.vktracker.feature.profile.domain.ProfileRepository
 class BaseProfileRepository(
     private val cloudDataSource: ProfileCloudDataSource,
     private val cacheDataSource: ProfileCacheDataSource,
-    private val mapperToCache: User.Mapper<ProfileCache>,
 ) : ProfileRepository {
-    override suspend fun loadProfile(): User {
-        return runCatching {
-            val profile = cloudDataSource.requestProfile()
-            cacheDataSource.save(profile.map(mapperToCache))
-            profile
-        }.getOrElse {
-            cacheDataSource.read().run {
-                User.Base(id, name, avatar)
-            }
-        }
+
+    override fun cachedProfile(): User = cacheDataSource.readProfile()
+
+    override suspend fun cloudProfile(): User {
+        val profile: User = cloudDataSource.requestProfile()
+        cacheDataSource.updateProfile(profile)
+        return profile
     }
+
 }

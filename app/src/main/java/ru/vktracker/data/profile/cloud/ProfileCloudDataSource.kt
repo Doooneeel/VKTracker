@@ -1,6 +1,6 @@
 package ru.vktracker.data.profile.cloud
 
-import ru.vktracker.core.common.User
+import ru.vktracker.core.common.user.User
 import ru.vktracker.core.common.text.UsernameFormat
 
 /**
