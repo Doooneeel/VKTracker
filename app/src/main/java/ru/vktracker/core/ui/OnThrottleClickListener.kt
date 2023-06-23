@@ -9,26 +9,29 @@ import android.view.View
 interface OnThrottleClickListener : View.OnClickListener {
 
     abstract class Abstract(
-        private val clickTime: ClickTime,
+        private val clickTime: Throttle,
         private val interval: Long,
         private val action: (View) -> Unit
-    ) : OnThrottleClickListener  {
+    ) : OnThrottleClickListener {
         override fun onClick(view: View) {
-            if (SystemClock.elapsedRealtime() - clickTime.lastClick() > interval) {
-                clickTime.registerClick(SystemClock.elapsedRealtime())
+            if (SystemClock.elapsedRealtime() - clickTime.lastTime() > interval) {
+                clickTime.update(SystemClock.elapsedRealtime())
                 action.invoke(view)
             }
         }
     }
 
-    class SingleSlight(action: (View) -> Unit) : Abstract(ClickTime.Base(), SLIGHT, action)
-    class SingleMedium(action: (View) -> Unit) : Abstract(ClickTime.Base(), MEDIUM, action)
-    class SingleLonger(action: (View) -> Unit) : Abstract(ClickTime.Base(), LONG, action)
+    class SingleSlight(action: (View) -> Unit) : Abstract(Throttle.Base(), SLIGHT, action)
+    class SingleMedium(action: (View) -> Unit) : Abstract(Throttle.Base(), MEDIUM, action)
+    class SingleLonger(action: (View) -> Unit) : Abstract(Throttle.Base(), LONG, action)
 
 
-    class Slight(clickTime: ClickTime, action: (View) -> Unit) : Abstract(clickTime, SLIGHT, action)
-    class Medium(clickTime: ClickTime, action: (View) -> Unit) : Abstract(clickTime, MEDIUM, action)
-    class Longer(clickTime: ClickTime, action: (View) -> Unit) : Abstract(clickTime, LONG, action)
+    class Slight(clickTime: Throttle, action: (View) -> Unit) : Abstract(clickTime, SLIGHT, action)
+    class Medium(clickTime: Throttle, action: (View) -> Unit) : Abstract(clickTime, MEDIUM, action)
+    class Longer(clickTime: Throttle, action: (View) -> Unit) : Abstract(clickTime, LONG, action)
+
+    class Base(throttle: Throttle, delay: Long, action: (View) -> Unit) : Abstract(throttle, delay, action)
+    class SingleBase(delay: Long, action: (View) -> Unit) : Abstract(Throttle.Base(), delay, action)
 
 
     companion object {
