@@ -22,6 +22,12 @@
     <string name="subscribers">Подписчики</string>
     <string name="users">Пользователи</string>
     <string name="find_user">Найти пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="email_or_phone_number">Почта или номер телефона</string>
+    <string name="login_to_vk_account">Войти в аккаунт VK</string>
+    <string name="login">Войти</string>
+    <string name="authorization">Авторизация</string>
+    <string name="further">Продолжить</string>
 
 
     <!--ACTIONS-->
@@ -40,6 +46,7 @@
     <string name="no_subscribers">У вас нет подписчиков</string>
     <string name="no_users_in_faves">Нет пользователей в закладках</string>
     <string name="explanation_logout">При этом все данные сохранятся, но отслеживание будет остановлено.</string>
+    <string name="welcome_to_vkt">Добро пожаловать в VK T</string>
 
 
     <!--ERROR MESSAGES-->

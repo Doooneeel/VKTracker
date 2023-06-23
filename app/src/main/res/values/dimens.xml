@@ -13,7 +13,7 @@
 
 
     <!--ICONS-->
-    <dimen name="icon_tiny">32dp</dimen>
+    <dimen name="icon_tiny">24dp</dimen>
     <dimen name="icon_small">42dp</dimen>
     <dimen name="icon_medium">40dp</dimen>
     <dimen name="icon_normal">56dp</dimen>
