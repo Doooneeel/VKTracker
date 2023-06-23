@@ -8,9 +8,9 @@ import ru.vktracker.core.common.CoroutineDispatchers
 /**
  * @author Danil Glazkov on 01.06.2023, 03:58
  */
-interface BaseViewModel {
+interface BaseViewModel : Init {
 
-    object Unit : BaseViewModel
+    override fun init(isFistRun: Boolean) = Unit
 
 
     abstract class Abstract(
