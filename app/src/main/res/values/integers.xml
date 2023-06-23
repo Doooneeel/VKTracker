@@ -1,4 +1,5 @@
 <resources>
     <integer name="com_vk_sdk_AppId">51659768</integer>
     <integer name="view_gone">2</integer>
+    <integer name="slide_animation_duration">500</integer>
 </resources>
