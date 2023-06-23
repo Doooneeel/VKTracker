@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import ru.vktracker.R
-import ru.vktracker.core.ui.BaseFragment
+import ru.vktracker.core.ui.BaseFragmentViewModel
 import ru.vktracker.core.ui.BaseLinearLayoutManager
 import ru.vktracker.core.ui.OnClickCallback
 import ru.vktracker.core.ui.OnThrottleClickListener
@@ -17,9 +17,11 @@ import ru.vktracker.databinding.FragmentUsersBinding as Binding
 /**
  * @author Danil Glazkov on 10.06.2023, 05:44
  */
-abstract class BaseAccountUsersFragment<M : BaseAccountUsersViewModel>(
+abstract class BaseAccountUsersFragment<VM : BaseAccountUsersViewModel.Abstract>(
     inflate: (LayoutInflater, ViewGroup?, Boolean) -> Binding,
-) : BaseFragment<Binding, M>(ID, inflate) {
+) : BaseFragmentViewModel<Binding, VM>(ID, inflate) {
+
+    override val hasBottomBar = true
 
     private val trackingButtonClickCallback = object : OnClickCallback<AccountUserUi> {
         override fun onClick(data: AccountUserUi) = viewModel.changeTrackingStatus(data)

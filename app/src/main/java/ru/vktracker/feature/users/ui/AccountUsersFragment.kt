@@ -6,7 +6,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import ru.vktracker.R
 import ru.vktracker.core.ui.BaseFragment
-import ru.vktracker.core.ui.BaseViewModel
 import ru.vktracker.core.ui.GenericFragmentStateAdapter
 import ru.vktracker.databinding.FragmentAccountUsersBinding as Binding
 
@@ -14,9 +13,7 @@ import ru.vktracker.databinding.FragmentAccountUsersBinding as Binding
  * @author Danil Glazkov on 09.06.2023, 22:45
  */
 @AndroidEntryPoint
-class AccountUsersFragment : BaseFragment<Binding, BaseViewModel>(ID, Binding::inflate) {
-
-    override val viewModel = BaseViewModel.Unit
+class AccountUsersFragment : BaseFragment<Binding>(ID, Binding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

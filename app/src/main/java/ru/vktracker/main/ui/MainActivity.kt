@@ -3,13 +3,10 @@ package ru.vktracker.main.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKScope
 import dagger.hilt.android.AndroidEntryPoint
 import ru.vktracker.R
 import ru.vktracker.core.ui.navigation.Screen
@@ -20,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private var navController: NavController? = null
     private val viewModel: MainViewModel by viewModels<MainViewModel.Base>()
 
-    private val topLevelDestinations = setOf(R.id.navigation_tabs_fragment, R.id.navigation_sign_in_fragment)
+    private val topLevelDestinations = setOf(R.id.navigation_tabs_fragment, R.id.navigation_signIn_fragment)
 
     private val destinationListener = NavController.OnDestinationChangedListener { _, destination, _ ->
         supportActionBar?.setDisplayHomeAsUpEnabled(!isStartDestination(destination))
@@ -38,17 +35,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-
-        //todo make authorization
-        if (!VK.isLoggedIn()) {
-            VK.login(this) {}.launch(listOf(VKScope.FRIENDS, VKScope.WALL))
-        }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)
         val navController = (navHostFragment as NavHostFragment).navController
 
         val graph = navController.navInflater.inflate(R.navigation.main_nav_graph)
+        graph.setStartDestination(R.id.navigation_welcome_fragment)
         navController.graph = graph
 
         viewModel.observeScreen(this) { screen: Screen ->

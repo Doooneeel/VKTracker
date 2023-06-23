@@ -7,7 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.vktracker.core.common.CoroutineDispatchers
 import ru.vktracker.core.ui.BaseViewModel
 import ru.vktracker.core.ui.Communication
-import ru.vktracker.core.ui.Init
 import ru.vktracker.core.ui.dialog.AbstractAlertDialog
 import ru.vktracker.core.ui.dialog.AlertDialogCommunication
 import ru.vktracker.core.ui.navigation.Screen
@@ -20,8 +19,8 @@ import javax.inject.Inject
 /**
  * @author Danil Glazkov on 17.06.2023, 06:40
  */
-interface ProfileViewModel : BaseViewModel, ProfileUiCommunication.Observe, Init,
-    ScreenCommunication.Observe, ProfileNavigation {
+interface ProfileViewModel : BaseViewModel, ProfileUiCommunication.Observe, ProfileNavigation,
+    ScreenCommunication.Observe {
 
     fun observeLogoutDialog(owner: LifecycleOwner, observer: Observer<AbstractAlertDialog>)
 
