@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatTextView
 class TextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : AppCompatTextView(
     context,
     attrs,
@@ -18,7 +18,7 @@ class TextView @JvmOverloads constructor(
 ) , AbstractView.Text {
 
     init {
-       Skeleton.Base.show(this)
+        Skeleton.Base.show(this)
     }
 
     override fun apply(text: String) {

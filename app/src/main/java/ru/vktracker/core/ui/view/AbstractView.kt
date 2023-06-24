@@ -36,4 +36,8 @@ interface AbstractView {
 
     }
 
+    interface Login {
+        fun input(): CharArray
+    }
+
 }
