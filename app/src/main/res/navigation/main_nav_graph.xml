@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/navigation_welcome_fragment">
+    app:startDestination="@id/navigation_two_factor_auth_fragment">
 
     <fragment
         android:id="@+id/navigation_welcome_fragment"
@@ -59,15 +59,29 @@
         android:label="TwoFactorAuthFragment"
         tools:layout="@layout/fragment_two_factor_auth">
 
+        <argument
+            android:name="argPhoneMask"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="argRedirectUrl"
+            app:argType="string"
+            app:nullable="false" />
+
         <action
             android:id="@+id/action_twoFactorAuth_to_tabs"
             app:destination="@id/navigation_tabs_fragment"
+            app:enterAnim="@anim/anim_slide_in_left"
+            app:exitAnim="@anim/anim_slide_out_left"
             app:popUpTo="@id/navigation_two_factor_auth_fragment"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_two_factor_to_signIn"
             app:destination="@id/navigation_signIn_fragment"
+            app:enterAnim="@anim/anim_slide_in_right"
+            app:exitAnim="@anim/anim_slide_out_right"
             app:popUpTo="@id/navigation_two_factor_auth_fragment"
             app:popUpToInclusive="true" />
 
@@ -78,6 +92,17 @@
         android:name="ru.vktracker.main.ui.MainNavigationFragment"
         android:label="BottomNavFragment"
         tools:layout="@layout/fragment_main_navigation">
+
+        <argument
+            android:name="argToken"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/action_tabs_to_welcome"
+            app:destination="@id/navigation_welcome_fragment"
+            app:popUpTo="@id/navigation_tabs_fragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
 

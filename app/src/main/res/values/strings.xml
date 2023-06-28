@@ -28,6 +28,9 @@
     <string name="login">Войти</string>
     <string name="authorization">Авторизация</string>
     <string name="further">Продолжить</string>
+    <string name="twoFA">Двухфакторная аутентификация</string>
+    <string name="confirmation_code">Код подтверждения</string>
+    <string name="confirm">Подтвердить</string>
 
 
     <!--ACTIONS-->
@@ -35,6 +38,7 @@
     <string name="logout">Выйти</string>
     <string name="cancel">Отменить</string>
     <string name="track">Отслеживать</string>
+    <string name="close">Закрыть</string>
 
 
     <!--QUESTIONS-->
@@ -47,9 +51,14 @@
     <string name="no_users_in_faves">Нет пользователей в закладках</string>
     <string name="explanation_logout">При этом все данные сохранятся, но отслеживание будет остановлено.</string>
     <string name="welcome_to_vkt">Добро пожаловать в VK T</string>
+    <string name="code_send">Код верификации отправлен на %1$s. Введите его, чтобы войти.</string>
 
 
     <!--ERROR MESSAGES-->
-    <string name="error_loading">При загрузке данных произошла ошибка.\nПроверьте Ваше подключение к сети.</string>
+    <string name="loading_error">При загрузке данных произошла ошибка.\nПроверьте Ваше подключение к сети.</string>
+    <string name="incorrect_login_or_password">Введен неверный логин или пароль</string>
+    <string name="auth_error">Ошибка при входе</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="internet_connection_error">Нет подключения к интернету.</string>
 
 </resources>

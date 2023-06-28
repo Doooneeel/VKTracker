@@ -1,18 +1,16 @@
 package ru.vktracker.feature.login.signin.ui
 
-import android.app.Activity
-import android.content.Context
-import android.inputmethodservice.InputMethodService
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
-import com.vk.api.sdk.VK
 import dagger.hilt.android.AndroidEntryPoint
 import ru.vktracker.R
 import ru.vktracker.core.ui.BaseFragmentViewModel
 import ru.vktracker.core.ui.Throttle
 import ru.vktracker.core.ui.OnThrottleClickListener
-import ru.vktracker.core.ui.navigation.Screen
-import ru.vktracker.databinding.FragmentSignInBinding
+import ru.vktracker.core.ui.SingleTextWatcher
+import ru.vktracker.core.ui.dialog.AbstractDialog
+import ru.vktracker.core.ui.navigation.Navigation
+import ru.vktracker.core.ui.view.fab.FabViewState
+import ru.vktracker.core.ui.view.state.ViewState
 import ru.vktracker.databinding.FragmentSignInBinding as Binding
 
 /**
@@ -22,21 +20,60 @@ import ru.vktracker.databinding.FragmentSignInBinding as Binding
 class SignInFragment : BaseFragmentViewModel<Binding, SignInViewModel>(ID, Binding::inflate) {
 
     override val viewModel: SignInViewModel by viewModels<SignInViewModel.Base>()
-    override val hasBottomBar = true
 
-    override fun FragmentSignInBinding.registerClickListeners(throttle: Throttle) {
+    override fun firstRun() {
+        binding.loginInputEditText.requestFocus()
+        showKeyboard(binding.loginInputEditText)
+    }
+
+    override fun Binding.registerListeners(throttle: Throttle) {
         toolBar.setNavigationOnClickListener(
-            OnThrottleClickListener.Longer(throttle) { viewModel.navigateToWelcomeScreen() }
+            OnThrottleClickListener.Longer(throttle) {
+                hideKeyboard(root)
+                viewModel.navigateToWelcomeScreen()
+            }
         )
+
         loginFloatingActionButton.setOnClickListener(
-            OnThrottleClickListener.Longer(throttle) { viewModel.navigateToTabsScreen() }
+            OnThrottleClickListener.Longer(throttle) {
+                viewModel.login(loginInputEditText.input(), passwordInputEditText.password())
+
+                hideKeyboard(root)
+                loginInputEditText.clearFocus()
+                passwordInputEditText.clearFocus()
+            }
         )
+
+        val inputTextWatcher = SingleTextWatcher.OnTextChanged {
+            viewModel.changeInput(loginInputEditText.input(), passwordInputEditText.password())
+        }
+
+        loginInputEditText.addTextChangedListener(inputTextWatcher)
+        passwordInputEditText.addTextChangedListener(inputTextWatcher)
     }
 
     override fun SignInViewModel.registerObservers() {
-        observeScreen(viewLifecycleOwner) { screen: Screen ->
-            screen.navigate(navController)
+
+        observeDialog(viewLifecycleOwner) { alertDialog: AbstractDialog ->
+            alertDialog.show(requireContext(), lifecycle)
         }
+
+        observeFabViewState(viewLifecycleOwner) { viewState: FabViewState ->
+            viewState.apply(binding.loginFloatingActionButton)
+        }
+
+        observeProgress(viewLifecycleOwner) { viewState: ViewState ->
+            viewState.apply(binding.progressIndicator)
+        }
+
+        observeInputViewState(viewLifecycleOwner) { viewState: ViewState ->
+            viewState.apply(binding.passwordTextInputLayout, binding.loginTextInputLayout)
+        }
+
+        observeChildNavigation(viewLifecycleOwner) { navigation: Navigation ->
+            navigation.navigate(navController)
+        }
+
     }
 
     companion object {

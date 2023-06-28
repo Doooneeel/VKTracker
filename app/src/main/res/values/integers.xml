@@ -2,4 +2,8 @@
     <integer name="com_vk_sdk_AppId">51659768</integer>
     <integer name="view_gone">2</integer>
     <integer name="slide_animation_duration">500</integer>
+    <integer name="vk_password_min_length">5</integer>
+    <integer name="vk_login_min_length">5</integer>
+    <integer name="vk_confirm_code_length">6</integer>
+    <integer name="vk_password_max_length">128</integer>
 </resources>

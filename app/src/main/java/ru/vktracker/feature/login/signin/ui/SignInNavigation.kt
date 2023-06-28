@@ -1,33 +1,44 @@
 package ru.vktracker.feature.login.signin.ui
 
 import ru.vktracker.R
-import ru.vktracker.core.ui.navigation.Screen
-import ru.vktracker.core.ui.navigation.ScreenCommunication
+import ru.vktracker.core.ui.navigation.Navigation
+import ru.vktracker.core.ui.navigation.NavigationCommunication
 
 /**
  * @author Danil Glazkov on 22.06.2023, 17:54
  */
 interface SignInNavigation {
 
-    fun navigateToTwoFactorAuthScreen()
+    interface External {
+        fun navigateToWelcomeScreen()
+    }
 
-    fun navigateToWelcomeScreen()
+    interface Internal {
 
-    fun navigateToTabsScreen()
+        fun navigateToTwoFactorScreen(phoneMask: String, redirectUrl: String)
+
+        fun navigateToTabsScreen()
+
+    }
+
+    interface Combine : External, Internal
 
 
-    class Base(private val communication: ScreenCommunication) : SignInNavigation {
+    class Base(private val communication: NavigationCommunication) : Combine {
 
-        override fun navigateToTwoFactorAuthScreen() = communication.put(
-            Screen.Base(R.id.action_signIn_to_twoFactorAuth)
-        )
+        override fun navigateToTwoFactorScreen(phoneMask: String, redirectUrl: String) =
+            communication.put(
+                Navigation.Direction(
+                    SignInFragmentDirections.actionSignInToTwoFactorAuth(phoneMask, redirectUrl)
+                )
+            )
 
         override fun navigateToWelcomeScreen() = communication.put(
-            Screen.Base(R.id.action_signIn_to_welcome)
+            Navigation.ID(R.id.action_signIn_to_welcome)
         )
 
         override fun navigateToTabsScreen() = communication.put(
-            Screen.Base(R.id.action_signIn_to_tabs)
+            Navigation.ID(R.id.action_signIn_to_tabs)
         )
     }
 
