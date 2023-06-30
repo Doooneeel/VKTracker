@@ -13,10 +13,12 @@
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            style="?attr/collapsingToolbarLayoutMediumStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:expandedTitleMarginStart="@dimen/distance_normal"
+            app:expandedTitleTextAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:liftOnScroll="false">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolBar"
@@ -24,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                app:liftOnScroll="false"
                 app:navigationIcon="@drawable/ic_arrow_back_tiny"
                 app:title="@string/login_to_vk_account" />
 
@@ -41,32 +44,25 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/progressIndicator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="invisible"
-                tools:visibility="visible" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/loginTextInputLayout"
                 style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:freezesText="true"
+                android:hapticFeedbackEnabled="true"
                 android:hint="@string/email_or_phone_number"
-                android:paddingHorizontal="@dimen/distance_medium"
-                android:paddingTop="@dimen/distance_medium"
+                android:paddingHorizontal="@dimen/distance_normal"
+                android:paddingTop="@dimen/distance_normal"
                 app:endIconMode="clear_text"
-                app:startIconMinSize="@dimen/distance_small">
+                app:startIconDrawable="@drawable/ic_alternate_email_small">
 
                 <ru.vktracker.core.ui.view.text.TextInput
                     android:id="@+id/loginInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/distance_medium"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:maxLength="@integer/vk_login_max_length" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,17 +73,19 @@
                 android:layout_height="wrap_content"
                 android:freezesText="true"
                 android:hint="@string/password"
-                android:paddingHorizontal="@dimen/distance_medium"
-                android:paddingTop="@dimen/distance_small"
-                app:passwordToggleEnabled="true">
+                android:paddingHorizontal="@dimen/distance_normal"
+                android:paddingTop="@dimen/distance_medium"
+                app:passwordToggleEnabled="true"
+                app:startIconDrawable="@drawable/ic_key_outline_tiny">
 
                 <ru.vktracker.core.ui.view.text.PasswordInputEditText
-                    app:passwordMaxLength="@integer/vk_password_max_length"
                     android:id="@+id/passwordInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="password"
-                    android:inputType="textPassword" />
+                    android:hapticFeedbackEnabled="true"
+                    android:inputType="textPassword"
+                    app:passwordMaxLength="@integer/vk_password_max_length" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,12 +93,22 @@
 
     </androidx.core.widget.NestedScrollView>
 
-
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/loginFloatingActionButton"
         style="@style/LoginFabStyle"
         android:text="@string/further"
         app:icon="@drawable/ic_login_tiny"
+        tools:visibility="visible" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:hideAnimationBehavior="outward"
+        app:showAnimationBehavior="inward"
         tools:visibility="visible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

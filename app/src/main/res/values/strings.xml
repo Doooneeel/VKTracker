@@ -24,7 +24,7 @@
     <string name="find_user">Найти пользователя</string>
     <string name="password">Пароль</string>
     <string name="email_or_phone_number">Почта или номер телефона</string>
-    <string name="login_to_vk_account">Войти в аккаунт VK</string>
+    <string name="login_to_vk_account">Вход в аккаунт VK</string>
     <string name="login">Войти</string>
     <string name="authorization">Авторизация</string>
     <string name="further">Продолжить</string>
@@ -57,8 +57,8 @@
     <!--ERROR MESSAGES-->
     <string name="loading_error">При загрузке данных произошла ошибка.\nПроверьте Ваше подключение к сети.</string>
     <string name="incorrect_login_or_password">Введен неверный логин или пароль</string>
-    <string name="auth_error">Ошибка при входе</string>
+    <string name="auth_error">Не удалось войти</string>
     <string name="unknown_error">Неизвестная ошибка</string>
-    <string name="internet_connection_error">Нет подключения к интернету.</string>
+    <string name="internet_connection_error">Отсутствует подключение к интернету</string>
 
 </resources>

@@ -1,7 +1,8 @@
 package ru.vktracker.feature.login.signin.ui
 
 import ru.vktracker.core.common.CoroutineDispatchers
-import ru.vktracker.core.ui.HandleDomainRequest
+import ru.vktracker.core.common.HandleDomainRequest
+import ru.vktracker.core.common.HandleDomainRequest.*
 import ru.vktracker.feature.login.signin.domain.SignInDomainResponse
 
 /**
@@ -12,9 +13,7 @@ interface SingInHandleDomainRequest : HandleDomainRequest<SignInDomainResponse> 
     class Base(
         private val mapper: SignInResponseMapper,
         dispatchers: CoroutineDispatchers
-    ) : HandleDomainRequest.Abstract<SignInDomainResponse>(
-        dispatchers
-    ) , SingInHandleDomainRequest {
+    ) : Abstract<SignInDomainResponse>(dispatchers), SingInHandleDomainRequest {
         override fun launchUi(response: SignInDomainResponse) =
             response.map(mapper)
     }

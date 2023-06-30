@@ -3,8 +3,9 @@ package ru.vktracker.feature.login.signin.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ru.vktracker.core.ui.BaseViewModel
+import ru.vktracker.core.ui.viewmodel.BaseViewModel
 import ru.vktracker.core.ui.view.fab.FabViewState
+import ru.vktracker.core.ui.view.progress.ProgressViewState
 import ru.vktracker.core.ui.view.state.ViewState
 import ru.vktracker.feature.login.signin.domain.SighInInteractor
 import ru.vktracker.feature.login.signin.ui.validate.SignInValidateInput
@@ -33,9 +34,11 @@ interface SignInViewModel : BaseViewModel, SignInNavigation.External, SignInComm
         SignInCommunications.Observe by communications
     {
         override fun login(login: String, password: CharArray) {
-            communications.putInputViewState(ViewState.DISABLE)
-            communications.putFabViewState(FabViewState.INVISIBLE)
-            communications.putProgressViewState(ViewState.VISIBLE)
+            communications.run {
+                putInterfaceViewState(ViewState.DISABLE)
+                putFabViewState(FabViewState.INVISIBLE)
+                putProgressViewState(ProgressViewState.SHOW)
+            }
 
             handleDomainRequest.handle(viewModelScope) {
                 interactor.login(login, password)

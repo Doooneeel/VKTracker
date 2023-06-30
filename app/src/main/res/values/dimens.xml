@@ -3,7 +3,7 @@
     <!--DISTANCE-->
     <dimen name="distance_tiny">4dp</dimen>
     <dimen name="distance_small">8dp</dimen>
-    <dimen name="distance_medium">16dp</dimen>
+    <dimen name="distance_medium">12dp</dimen>
     <dimen name="distance_normal">20dp</dimen>
     <dimen name="distance_large">32dp</dimen>
     <dimen name="distance_huge">64dp</dimen>
@@ -14,7 +14,7 @@
 
     <!--ICONS-->
     <dimen name="icon_tiny">24dp</dimen>
-    <dimen name="icon_small">42dp</dimen>
+    <dimen name="icon_small">28dp</dimen>
     <dimen name="icon_medium">40dp</dimen>
     <dimen name="icon_normal">56dp</dimen>
     <dimen name="icon_large">82dp</dimen>
