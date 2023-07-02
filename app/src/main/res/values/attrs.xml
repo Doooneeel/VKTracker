@@ -6,4 +6,8 @@
         <attr name="icon" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="PasswordInputEditText">
+        <attr name="passwordMaxLength" format="integer" />
+    </declare-styleable>
+
 </resources>
