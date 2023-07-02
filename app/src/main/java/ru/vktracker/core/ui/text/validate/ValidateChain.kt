@@ -1,25 +1,49 @@
 package ru.vktracker.core.ui.text.validate
 
-import ru.vktracker.core.ui.text.ErrorMessage
+import ru.vktracker.core.ui.text.Message
 
 /**
  * @author Danil Glazkov on 25.07.2022, 04:21
  */
-open class ValidateChain(
-    private val current: Validate,
-    private val next: Validate
-) : Validate {
-    private var currentValid = false
+interface ValidateChain<T> : Validate<T> {
 
-    override fun isValid(source: String): Boolean {
-        currentValid = current.isValid(source)
-        return if (currentValid) next.isValid(source) else false
-    }
+    abstract class Abstract<T>(
+        private val current: Validate<T>,
+        private val next: Validate<T>
+    ) : Validate<T> {
+        protected var currentValid = false
 
-    override fun errorMessage(): ErrorMessage {
-        return if (currentValid)
+        override fun errorMessage(): Message = if (currentValid) {
             next.errorMessage()
-        else
+        } else {
             current.errorMessage()
+        }
     }
+
+    class AllValid<T>(
+        private val current: Validate<T>,
+        private val next: Validate<T>
+    ) : Abstract<T>(current, next) {
+        override fun isValid(source: T): Boolean {
+            currentValid = current.isValid(source)
+            return if (currentValid) next.isValid(source) else false
+        }
+    }
+
+    class AnyValid<T>(
+        private val current: Validate<T>,
+        private val next: Validate<T>
+    ) : Abstract<T>(current, next) {
+        private var nextValid = false
+
+        override fun errorMessage(): Message =
+            if (nextValid || currentValid) Message.Empty else super.errorMessage()
+
+        override fun isValid(source: T): Boolean {
+            if (current.isValid(source)) { currentValid = true }
+            if (next.isValid(source)) { nextValid = true }
+            return currentValid || nextValid
+        }
+    }
+
 }

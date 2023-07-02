@@ -1,25 +1,25 @@
 package ru.vktracker.core.ui.text.validate
 
-import ru.vktracker.core.ui.text.ErrorMessage
+import ru.vktracker.core.ui.text.Message
 
 /**
  * @author Danil Glazkov on 22.06.2023, 17:31
  */
-interface Validate {
+interface Validate<T> {
 
-    fun isValid(source: String): Boolean
+    fun isValid(source: T): Boolean
 
-    fun errorMessage(): ErrorMessage
+    fun errorMessage(): Message
 
 
-    abstract class Abstract(private val errorMessage: String) : Validate {
-        override fun errorMessage() = ErrorMessage.Base(errorMessage)
+    abstract class Abstract<T>(private val errorMessage: String = "") : Validate<T> {
+        override fun errorMessage() = Message.Base(errorMessage)
     }
 
     abstract class Pattern(
         private val pattern: java.util.regex.Pattern,
-        errorMessage: String
-    ) : Abstract(errorMessage) {
+        errorMessage: String,
+    ) : Abstract<String>(errorMessage) {
         override fun isValid(source: String): Boolean =
             pattern.matcher(source).matches()
     }
