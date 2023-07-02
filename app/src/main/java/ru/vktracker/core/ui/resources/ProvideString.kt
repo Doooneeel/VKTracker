@@ -9,7 +9,7 @@ import androidx.annotation.StringRes
 interface ProvideString {
 
     interface Single {
-        fun string(@StringRes id: Int): String
+        fun string(@StringRes id: Int, vararg formatArgs: Any): String
     }
 
     interface Array {
@@ -17,7 +17,7 @@ interface ProvideString {
     }
 
     interface Quantity {
-        fun quantityString(@PluralsRes id: Int, quantity: Int, vararg formatArgs: Any)
+        fun quantityString(@PluralsRes id: Int, quantity: Int, vararg formatArgs: Any): String
     }
 
     interface Combine : Single, Quantity, Array

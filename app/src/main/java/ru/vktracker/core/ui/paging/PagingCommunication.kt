@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import ru.vktracker.core.ui.Communication
+import ru.vktracker.core.ui.viewmodel.Communication
 
 /**
  * @author Danil Glazkov on 11.06.2023, 23:50

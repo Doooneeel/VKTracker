@@ -6,4 +6,17 @@
         <attr name="icon" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ConfirmationCodeLayout">
+        <attr name="itemPadding" format="dimension" />
+        <attr name="codeLength" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="SkeletonTextView">
+        <attr name="enableSkeleton" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="PasswordInputEditText">
+        <attr name="passwordMaxLength" format="integer" />
+    </declare-styleable>
+
 </resources>

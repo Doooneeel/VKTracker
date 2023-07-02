@@ -10,6 +10,8 @@ interface HandleError<T> {
 
     fun handle(exception: Exception): T
 
+    interface Unit : HandleError<kotlin.Unit>
+
     interface Paging<T : Any> : HandleError<PagingSource.LoadResult<Int, T>>
 
 }
