@@ -1,6 +1,6 @@
 package ru.vktracker.core.ui.navigation
 
-import ru.vktracker.core.ui.view.AbstractView
+import ru.vktracker.core.ui.view.common.AbstractView
 
 /**
  * @author Danil Glazkov on 21.06.2023, 15:51

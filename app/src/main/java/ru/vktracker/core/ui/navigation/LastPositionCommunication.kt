@@ -2,7 +2,7 @@ package ru.vktracker.core.ui.navigation
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import ru.vktracker.core.ui.Communication
+import ru.vktracker.core.ui.viewmodel.Communication
 
 /**
  * @author Danil Glazkov on 21.06.2023, 15:52

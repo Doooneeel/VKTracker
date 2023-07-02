@@ -19,9 +19,8 @@ abstract class VkApiPagingSource<T : Any> : PagingSource<Int, T>() {
 
         val data: List<T> = request(Page.Base(offset, count))
         val nextKey: Int? = if (data.size < count) null else offset + data.size
-        val prevKey = null
 
-        LoadResult.Page(data, prevKey, nextKey)
+        LoadResult.Page(data, null, nextKey)
     } catch (exception: Exception) {
         handleError(exception)
     }

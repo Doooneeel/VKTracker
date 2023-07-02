@@ -12,6 +12,6 @@ interface MessageCommunication : Communication.Mutable<Message> {
 
     class SavedState(savedState: SavedStateHandle) : Communication.SavedStateUi<Message>(
         savedState, "MessageSavedStateCommunication"
-    )
+    ) , MessageCommunication
 
 }

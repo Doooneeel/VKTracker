@@ -5,7 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.vktracker.R
-import ru.vktracker.core.ui.fragment.SingleLifecycleEventObserver
+import ru.vktracker.core.ui.SingleLifecycleEventObserver
 
 /**
  * @author Danil Glazkov on 20.06.2023, 14:47

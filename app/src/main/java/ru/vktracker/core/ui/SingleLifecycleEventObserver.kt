@@ -22,6 +22,8 @@ interface SingleLifecycleEventObserver : LifecycleEventObserver {
 
     class Create (block: () -> Unit) : Abstract(Lifecycle.Event.ON_CREATE, block)
 
+    class Resume (block: () -> Unit) : Abstract(Lifecycle.Event.ON_RESUME, block)
+
     class Destroy (block: () -> Unit) : Abstract(Lifecycle.Event.ON_DESTROY, block)
 
 }
