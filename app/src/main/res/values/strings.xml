@@ -61,4 +61,12 @@
     <string name="unknown_error">Неизвестная ошибка</string>
     <string name="internet_connection_error">Отсутствует подключение к интернету</string>
 
+
+    <!--WELCOME FRAGMENT-->
+    <string name="welcome_title_design">Дизайн</string>
+    <string name="welcome_description_design">Современный и функциональный Material3 дизайн</string>
+
+    <string name="welcome_title_tracking">Отслеживание пользователей</string>
+    <string name="welcome_description_tracking">Следите за всеми изменениями в профилях Ваших друзей и знакомых</string>
+
 </resources>

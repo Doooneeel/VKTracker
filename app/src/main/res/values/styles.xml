@@ -1,7 +1,14 @@
 <resources>
 
-    <style name="MaterialAlertDialog.Material3.Title.Icon.Primary" parent="@style/MaterialAlertDialog.Material3.Title.Icon">
+    <style name="MaterialAlertDialog.Material3.Title.Icon.Primary" parent="MaterialAlertDialog.Material3.Title.Icon">
         <item name="android:tint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="FabStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="android:layout_margin">@dimen/distance_normal</item>
     </style>
 
 </resources>

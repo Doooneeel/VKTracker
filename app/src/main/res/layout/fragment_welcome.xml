@@ -10,10 +10,12 @@
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            style="?attr/collapsingToolbarLayoutMediumStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:expandedTitleMarginStart="@dimen/distance_normal"
+            app:expandedTitleTextAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:maxLines="3">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolBar"
@@ -30,21 +32,35 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/distance_medium"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/distance_large"
+            android:layout_marginTop="@dimen/distance_normal"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/distance_normal">
+
+            <include
+                android:id="@+id/welcomeItemTracking"
+                layout="@layout/layout_welcome_item" />
+
+            <include
+                android:id="@+id/welcomeItemDesign"
+                layout="@layout/layout_welcome_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_medium" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/continueFloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/FabStyle"
         android:text="@string/authorization"
-        app:icon="@drawable/ic_login_tiny"
-        app:layout_anchor="@id/bottomAppBar" />
+        app:icon="@drawable/ic_login_tiny" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
