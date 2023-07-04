@@ -12,11 +12,9 @@
 
         <action
             android:id="@+id/action_welcome_to_signIn"
-            app:destination="@id/navigation_signIn_fragment"
-            app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_left"
-            app:popUpTo="@id/navigation_welcome_fragment"
-            app:popUpToInclusive="true" />
+            app:enterAnim="@anim/anim_left_fade_enter"
+            app:exitAnim="@anim/anim_left_fade_exit"
+            app:destination="@id/navigation_signIn_fragment" />
 
     </fragment>
 
@@ -30,24 +28,24 @@
         <action
             android:id="@+id/action_signIn_to_tabs"
             app:destination="@id/navigation_tabs_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/anim_left_fade_enter"
+            app:exitAnim="@anim/anim_left_fade_exit"
             app:popUpTo="@id/navigation_signIn_fragment"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_signIn_to_welcome"
             app:destination="@id/navigation_welcome_fragment"
-            app:enterAnim="@anim/anim_slide_in_right"
-            app:exitAnim="@anim/anim_slide_out_right"
+            app:enterAnim="@anim/anim_right_fade_enter"
+            app:exitAnim="@anim/anim_right_fade_exit"
             app:popUpTo="@id/navigation_signIn_fragment"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_signIn_to_twoFactorAuth"
             app:destination="@id/navigation_two_factor_auth_fragment"
-            app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_left"
+            app:enterAnim="@anim/anim_left_fade_enter"
+            app:exitAnim="@anim/anim_left_fade_exit"
             app:popUpTo="@id/navigation_signIn_fragment"
             app:popUpToInclusive="true" />
 
@@ -72,16 +70,16 @@
         <action
             android:id="@+id/action_twoFactorAuth_to_tabs"
             app:destination="@id/navigation_tabs_fragment"
-            app:enterAnim="@anim/anim_slide_in_left"
-            app:exitAnim="@anim/anim_slide_out_left"
+            app:enterAnim="@anim/anim_left_fade_enter"
+            app:exitAnim="@anim/anim_left_fade_exit"
             app:popUpTo="@id/navigation_two_factor_auth_fragment"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_two_factor_to_signIn"
             app:destination="@id/navigation_signIn_fragment"
-            app:enterAnim="@anim/anim_slide_in_right"
-            app:exitAnim="@anim/anim_slide_out_right"
+            app:enterAnim="@anim/anim_right_fade_enter"
+            app:exitAnim="@anim/anim_right_fade_exit"
             app:popUpTo="@id/navigation_two_factor_auth_fragment"
             app:popUpToInclusive="true" />
 
@@ -101,6 +99,8 @@
         <action
             android:id="@+id/action_tabs_to_welcome"
             app:destination="@id/navigation_welcome_fragment"
+            app:enterAnim="@anim/anim_left_fade_enter"
+            app:exitAnim="@anim/anim_left_fade_exit"
             app:popUpTo="@id/navigation_tabs_fragment"
             app:popUpToInclusive="true" />
 
