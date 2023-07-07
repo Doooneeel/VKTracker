@@ -1,10 +1,146 @@
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".feature.login.signin.ui.SignInFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:text="two factor auth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
+            android:pointerIcon="grab"
+            app:expandedTitleMarginStart="@dimen/distance_normal"
+            app:expandedTitleTextAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:maxLines="3">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolBar"
+                style="@style/Widget.Material3.Toolbar.OnSurface"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_tiny"
+                app:title="@string/twoFA" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/distance_normal"
+                android:scrollbars="none">
+
+                <ru.vktracker.feature.login.twofactor.ui.view.code.CodeConfirmationView
+                    android:id="@+id/confirmCodeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    app:codeCursorSymbol="_"
+                    app:codeItemBackgroundColor="@color/transparent"
+                    app:codeItemBorderActiveColor="?attr/colorPrimary"
+                    app:codeItemBorderAnimationDuration="@integer/code_border_animation_duration"
+                    app:codeItemBorderColor="?attr/colorOutline"
+                    app:codeItemBorderCornerRadius="@dimen/radius_medium"
+                    app:codeItemBorderWidth="2dp"
+                    app:codeItemHeight="@dimen/code_item_height"
+                    app:codeItemTextColor="?attr/colorOnBackground"
+                    app:codeItemTextSize="@dimen/code_item_text_size"
+                    app:codeItemWidth="@dimen/code_item_width"
+                    app:codeItemsSpacing="@dimen/distance_small"
+                    app:codeLength="@integer/vk_confirm_code_length" />
+
+            </HorizontalScrollView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_small"
+                android:orientation="vertical">
+
+                <ru.vktracker.core.ui.view.text.SkeletonTextView
+                    android:id="@+id/descriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/distance_normal"
+                    android:paddingBottom="@dimen/distance_small"
+                    android:text="@string/code_send"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    app:enableSkeleton="false" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/distance_medium" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/distance_normal">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/materialTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/no_code_received"
+                        android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/retryChipButton"
+                        style="@style/Widget.Material3.Chip.Assist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:gravity="center_vertical"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        tools:text="@string/resend_two_fa_code" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/confirmFloatingActionButton"
+        style="@style/FabStyle"
+        android:text="@string/confirm"
+        android:visibility="invisible"
+        app:icon="@drawable/ic_done"
+        tools:visibility="visible" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressIndicator"
+        style="@style/LinearProgressIndicatorStyle"
+        android:layout_gravity="bottom"
+        tools:visibility="visible" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
