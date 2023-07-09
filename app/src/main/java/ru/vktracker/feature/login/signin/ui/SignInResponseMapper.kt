@@ -1,14 +1,8 @@
 package ru.vktracker.feature.login.signin.ui
 
-import ru.vktracker.core.ui.dialog.DialogCommunication
-import ru.vktracker.core.ui.view.fab.FabViewState
-import ru.vktracker.core.ui.view.fab.FabViewStateCommunication
-import ru.vktracker.core.ui.view.progress.ProgressCommunication
-import ru.vktracker.core.ui.view.progress.ProgressViewState
-import ru.vktracker.core.ui.view.state.ViewState
-import ru.vktracker.core.ui.view.state.ViewStateCommunication
 import ru.vktracker.feature.login.signin.domain.SignInDomainResponse
-import ru.vktracker.feature.login.signin.ui.dialogs.FailedLoginDialog
+import ru.vktracker.feature.login.signin.ui.state.SignInUiState
+import ru.vktracker.feature.login.signin.ui.state.SignInUiStateCommunication
 import java.lang.Exception
 
 /**
@@ -17,33 +11,18 @@ import java.lang.Exception
 interface SignInResponseMapper : SignInDomainResponse.Mapper<Unit> {
 
     class Base(
-        private val dialogCommunication: DialogCommunication,
-        private val fabViewStateCommunication: FabViewStateCommunication,
-        private val loginInputViewStateCommunication: ViewStateCommunication,
-        private val progressCommunication: ProgressCommunication,
+        private val communication: SignInUiStateCommunication,
         private val navigation: SignInNavigation.Internal,
         private val handleError: SignInHandleError
     ) : SignInResponseMapper {
 
         override fun success(token: CharArray) = navigation.navigateToTabsScreen()
 
-        override fun failure(exception: Exception) {
-            progressCommunication.put(ProgressViewState.HIDE)
-
-            val message: String = handleError.handle(exception)
-            val handleShowing = { fabViewStateCommunication.put(FabViewState.INVISIBLE) }
-            val handleClosing = {
-                fabViewStateCommunication.put(FabViewState.VISIBLE)
-                loginInputViewStateCommunication.put(ViewState.ENABLE)
-            }
-            dialogCommunication.put(
-                FailedLoginDialog(message, handleShowing, handleClosing)
-            )
-        }
+        override fun failure(exception: Exception) = communication.put(
+            SignInUiState.ShowErrorDialog(handleError.handle(exception))
+        )
 
         override fun mapTwoFactorAuth(phoneMask: String, redirectUrl: String) {
-            progressCommunication.put(ProgressViewState.HIDE)
-
             navigation.navigateToTwoFactorScreen(phoneMask, redirectUrl)
         }
     }

@@ -4,10 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.vktracker.core.ui.viewmodel.BaseViewModel
-import ru.vktracker.core.ui.view.fab.FabViewState
-import ru.vktracker.core.ui.view.progress.ProgressViewState
-import ru.vktracker.core.ui.view.state.ViewState
 import ru.vktracker.feature.login.signin.domain.SighInInteractor
+import ru.vktracker.feature.login.signin.ui.state.SignInUiState
 import ru.vktracker.feature.login.signin.ui.validate.SignInValidateInput
 import javax.inject.Inject
 
@@ -34,21 +32,15 @@ interface SignInViewModel : BaseViewModel, SignInNavigation.External, SignInComm
         SignInCommunications.Observe by communications
     {
         override fun login(login: String, password: CharArray) {
-            communications.run {
-                putInterfaceViewState(ViewState.DISABLE)
-                putFabViewState(FabViewState.INVISIBLE)
-                putProgressViewState(ProgressViewState.SHOW)
-            }
+            communications.put(SignInUiState.Login)
 
             handleDomainRequest.handle(viewModelScope) {
                 interactor.login(login, password)
             }
         }
 
-        override fun changeInput(login: String, password: CharArray) {
-            communications.putFabViewState(
-                FabViewState.Base(validateInput.isValid(login, password))
-            )
-        }
+        override fun changeInput(login: String, password: CharArray) = communications.put(
+            SignInUiState.UserInputChanged(validateInput.isValid(login, password))
+        )
     }
 }

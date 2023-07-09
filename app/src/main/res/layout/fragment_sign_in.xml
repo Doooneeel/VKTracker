@@ -1,4 +1,5 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             app:expandedTitleMarginStart="@dimen/distance_normal"
             app:expandedTitleTextAppearance="@style/TextAppearance.Material3.HeadlineMedium"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:liftOnScroll="false">
+            app:maxLines="3">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolBar"
@@ -26,7 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:liftOnScroll="false"
                 app:navigationIcon="@drawable/ic_arrow_back_tiny"
                 app:title="@string/login_to_vk_account" />
 
@@ -57,10 +57,11 @@
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_alternate_email_small">
 
-                <ru.vktracker.core.ui.view.text.TextInput
+                <ru.vktracker.core.ui.view.text.InputEditText
                     android:id="@+id/loginInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:imeOptions="flagNoExtractUi"
                     android:inputType="textEmailAddress"
                     android:maxLength="@integer/vk_login_max_length" />
 
@@ -84,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="password"
                     android:hapticFeedbackEnabled="true"
+                    android:imeOptions="flagNoExtractUi"
                     android:inputType="textPassword"
                     app:passwordMaxLength="@integer/vk_password_max_length" />
 
@@ -95,20 +97,16 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/loginFloatingActionButton"
-        style="@style/LoginFabStyle"
+        style="@style/FabStyle"
         android:text="@string/further"
+        android:visibility="invisible"
         app:icon="@drawable/ic_login_tiny"
         tools:visibility="visible" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/LinearProgressIndicatorStyle"
         android:layout_gravity="bottom"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:hideAnimationBehavior="outward"
-        app:showAnimationBehavior="inward"
         tools:visibility="visible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

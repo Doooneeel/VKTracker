@@ -8,15 +8,12 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import ru.vktracker.R
 import ru.vktracker.core.common.CoroutineDispatchers
-import ru.vktracker.core.ui.view.progress.ProgressCommunication
-import ru.vktracker.core.ui.dialog.DialogCommunication
 import ru.vktracker.core.ui.navigation.NavigationCommunication
 import ru.vktracker.core.ui.resources.ManageResources
 import ru.vktracker.core.ui.text.validate.*
-import ru.vktracker.core.ui.view.fab.FabViewStateCommunication
-import ru.vktracker.core.ui.view.state.ViewStateCommunication
 import ru.vktracker.feature.login.signin.domain.SighInInteractor
 import ru.vktracker.feature.login.signin.ui.*
+import ru.vktracker.feature.login.signin.ui.state.SignInUiStateCommunication
 import ru.vktracker.feature.login.signin.ui.validate.SignInValidateInput
 
 /**
@@ -27,14 +24,12 @@ import ru.vktracker.feature.login.signin.ui.validate.SignInValidateInput
 class SingInModule {
 
     private val childNavigationCommunication = NavigationCommunication.Base()
-    private val progressCommunication = ProgressCommunication.Base()
-    private val interfaceViewStateCommunication = ViewStateCommunication.Base()
-    private val dialogCommunication = DialogCommunication.Base()
 
     @Provides
     @ViewModelScoped
-    fun provideFabViewStateCommunication(savedState: SavedStateHandle): FabViewStateCommunication =
-        FabViewStateCommunication.SavedState(savedState)
+    fun provideSignInUiStateCommunication(savedState: SavedStateHandle): SignInUiStateCommunication {
+        return SignInUiStateCommunication.SavedState(savedState)
+    }
 
     @Provides
     @ViewModelScoped
@@ -43,15 +38,9 @@ class SingInModule {
 
     @Provides
     fun providesCommunications(
-        fabViewStateCommunication: FabViewStateCommunication
+        signInUiStateCommunication: SignInUiStateCommunication
     ) : SignInCommunications.Mutable {
-        return SignInCommunications.Base(
-            interfaceViewStateCommunication,
-            fabViewStateCommunication,
-            dialogCommunication,
-            progressCommunication,
-            childNavigationCommunication,
-        )
+        return SignInCommunications.Base(signInUiStateCommunication, childNavigationCommunication)
     }
 
     @Provides
@@ -62,14 +51,11 @@ class SingInModule {
         dispatchers: CoroutineDispatchers,
         resources: ManageResources,
         navigation: SignInNavigation.Combine,
-        fabViewStateCommunication: FabViewStateCommunication
+        signInUiStateCommunication: SignInUiStateCommunication
     ) : SingInHandleDomainRequest {
         return SingInHandleDomainRequest.Base(
             SignInResponseMapper.Base(
-                dialogCommunication,
-                fabViewStateCommunication,
-                interfaceViewStateCommunication,
-                progressCommunication,
+                signInUiStateCommunication,
                 navigation,
                 SignInHandleError(resources)
             ),
@@ -80,12 +66,20 @@ class SingInModule {
     @Provides
     fun provideValidateInput(resources: ManageResources): SignInValidateInput {
         return SignInValidateInput.Base(
-            ValidateChain.AnyValid(
-                ValidateEmail(),
-                ValidateNumberPhone()
+            ValidateChain.AllValid(
+                ValidateText.MinLength(
+                    resources.number(R.integer.vk_login_min_length)
+                ),
+                ValidateChain.AnyValid(
+                    ValidateEmail.AndroidPattern(),
+                    ValidateNumberPhone.AndroidPattern(),
+                )
             ),
-            ValidatePassword.MinLength(
-                resources.number(R.integer.vk_password_min_length)
+            ValidateChain.AllValid(
+                ValidatePassword.NotEmpty(),
+                ValidatePassword.MinLength(
+                    resources.number(R.integer.vk_password_min_length)
+                )
             )
         )
     }
