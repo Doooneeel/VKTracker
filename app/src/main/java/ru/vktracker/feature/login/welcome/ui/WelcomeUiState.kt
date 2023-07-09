@@ -3,23 +3,22 @@ package ru.vktracker.feature.login.welcome.ui
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import ru.vktracker.R
-import ru.vktracker.core.ui.view.common.AbstractView
 import ru.vktracker.databinding.LayoutWelcomeItemBinding
 
 /**
  * @author Danil Glazkov on 03.07.2023, 9:26
  */
-interface WelcomeItemUi : AbstractView {
+interface WelcomeUiState {
 
-    fun apply(binding: LayoutWelcomeItemBinding)
+    fun update(binding: LayoutWelcomeItemBinding)
 
 
     abstract class Abstract(
         @DrawableRes private val icon: Int,
         @StringRes private val title: Int,
         @StringRes private val description: Int,
-    ) : WelcomeItemUi {
-        override fun apply(binding: LayoutWelcomeItemBinding) = binding.run {
+    ) : WelcomeUiState {
+        override fun update(binding: LayoutWelcomeItemBinding) = binding.run {
             iconImageView.setImageResource(icon)
             titleTextView.setText(title)
             titleTextView.isSelected = true
