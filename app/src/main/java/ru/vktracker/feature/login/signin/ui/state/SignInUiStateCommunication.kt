@@ -8,7 +8,13 @@ import ru.vktracker.core.ui.viewmodel.Communication
  */
 interface SignInUiStateCommunication : Communication.Mutable<SignInUiState> {
 
-    class SavedState(savedState: SavedStateHandle) : Communication.SavedStateUi<SignInUiState>(
-        savedState, "SignInUiStateCommunication"
+    class SavedState(
+        handleUiState: SignInHandleUiState,
+        savedState: SavedStateHandle
+    ) : Communication.SavedStateUiWithHandler<SignInUiState>(
+        handleUiState,
+        savedState,
+        "SignInUiStateCommunication"
     ) , SignInUiStateCommunication
+
 }

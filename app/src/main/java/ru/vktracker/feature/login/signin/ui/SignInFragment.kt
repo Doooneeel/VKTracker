@@ -12,7 +12,7 @@ import ru.vktracker.R
 import ru.vktracker.core.ui.fragment.BaseFragmentViewModel
 import ru.vktracker.core.ui.navigation.Navigation
 import ru.vktracker.core.ui.view.common.listeners.OnThrottleClickListener
-import ru.vktracker.core.ui.view.common.listeners.SingleOnKeyListener
+import ru.vktracker.core.ui.view.common.listeners.SingleEditorActionListener
 import ru.vktracker.core.ui.view.text.SingleTextWatcher
 import ru.vktracker.feature.login.signin.ui.state.SignInUiState
 import ru.vktracker.databinding.FragmentSignInBinding as Binding
@@ -34,8 +34,7 @@ class SignInFragment : BaseFragmentViewModel<Binding, SignInViewModel>(ID) {
         throttle.update()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val animationDuration = resources.getInteger(R.integer.fragment_animation_duration)
-            delay(animationDuration.toLong())
+            delay(resources.getInteger(R.integer.fragment_animation_duration).toLong())
 
             binding.loginInputEditText.requestFocus()
             showKeyboard(binding.loginInputEditText)
@@ -45,20 +44,15 @@ class SignInFragment : BaseFragmentViewModel<Binding, SignInViewModel>(ID) {
     override fun Binding.registerListeners() {
         val inputViews = listOf(loginInputEditText, passwordInputEditText)
 
-        toolBar.setNavigationOnClickListener(
-            OnThrottleClickListener.Medium(throttle) {
-                hideKeyboard(root)
-                viewModel.navigateToWelcomeScreen()
-            }
-        )
+        toolBar.setNavigationOnClickListener(OnThrottleClickListener.Medium(throttle) {
+            viewModel.navigateToWelcomeScreen()
+            hideKeyboard(root)
+        })
 
-        loginFloatingActionButton.setOnClickListener(
-            OnThrottleClickListener.Medium(throttle) {
-                viewModel.login(loginInputEditText.input(), passwordInputEditText.password())
-
-                requireActivity().currentFocus?.clearFocus()
-            }
-        )
+        loginFloatingActionButton.setOnClickListener(OnThrottleClickListener.Medium(throttle) {
+            viewModel.login(loginInputEditText.input(), passwordInputEditText.password())
+            requireActivity().currentFocus?.clearFocus()
+        })
 
         inputViews.forEach { inputEditText: TextInputEditText ->
             inputEditText.addTextChangedListener(
@@ -71,29 +65,23 @@ class SignInFragment : BaseFragmentViewModel<Binding, SignInViewModel>(ID) {
             )
         }
 
-        passwordInputEditText.setOnKeyListener(
-            SingleOnKeyListener.Enter { passwordEditText ->
-                hideKeyboard(passwordEditText)
-                passwordEditText.clearFocus()
+        passwordInputEditText.setOnEditorActionListener(SingleEditorActionListener.Done {
+            passwordInputEditText.clearFocus()
+            hideKeyboard(root)
 
-                if (loginFloatingActionButton.isVisible) {
-                    loginFloatingActionButton.performClick()
-                }
+            if (loginFloatingActionButton.isVisible) {
+                loginFloatingActionButton.performClick()
             }
-        )
-
+        })
     }
 
     override fun SignInViewModel.registerObservers() {
-
         observe(viewLifecycleOwner) { uiState: SignInUiState ->
             uiState.update(binding)
         }
-
         observeChildNavigation(viewLifecycleOwner) { navigation: Navigation ->
             navigation.navigate(navController)
         }
-
     }
 
 }

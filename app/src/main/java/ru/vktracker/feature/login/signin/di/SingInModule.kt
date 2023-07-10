@@ -7,12 +7,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 import ru.vktracker.R
-import ru.vktracker.core.common.CoroutineDispatchers
 import ru.vktracker.core.ui.navigation.NavigationCommunication
 import ru.vktracker.core.ui.resources.ManageResources
 import ru.vktracker.core.ui.text.validate.*
 import ru.vktracker.feature.login.signin.domain.SighInInteractor
 import ru.vktracker.feature.login.signin.ui.*
+import ru.vktracker.feature.login.signin.ui.state.SignInHandleUiState
 import ru.vktracker.feature.login.signin.ui.state.SignInUiStateCommunication
 import ru.vktracker.feature.login.signin.ui.validate.SignInValidateInput
 
@@ -23,18 +23,26 @@ import ru.vktracker.feature.login.signin.ui.validate.SignInValidateInput
 @InstallIn(ViewModelComponent::class)
 class SingInModule {
 
-    private val childNavigationCommunication = NavigationCommunication.Base()
+    private val childNavigationCommunication = NavigationCommunication.Ui()
 
     @Provides
     @ViewModelScoped
-    fun provideSignInUiStateCommunication(savedState: SavedStateHandle): SignInUiStateCommunication {
-        return SignInUiStateCommunication.SavedState(savedState)
+    fun provideSignInUiStateCommunication(
+        savedState: SavedStateHandle,
+        resources: ManageResources
+    ) : SignInUiStateCommunication {
+        return SignInUiStateCommunication.SavedState(
+            SignInHandleUiState.Base(resources),
+            savedState
+        )
     }
+
 
     @Provides
     @ViewModelScoped
     fun provideSignInNavigation(): SignInNavigation.Combine =
         SignInNavigation.Base(childNavigationCommunication)
+
 
     @Provides
     fun providesCommunications(
@@ -43,25 +51,15 @@ class SingInModule {
         return SignInCommunications.Base(signInUiStateCommunication, childNavigationCommunication)
     }
 
+
     @Provides
     fun provideSighInInteractor(): SighInInteractor = SighInInteractor.Base()
 
+
     @Provides
-    fun provideSingInHandleDomainRequest(
-        dispatchers: CoroutineDispatchers,
-        resources: ManageResources,
-        navigation: SignInNavigation.Combine,
-        signInUiStateCommunication: SignInUiStateCommunication
-    ) : SingInHandleDomainRequest {
-        return SingInHandleDomainRequest.Base(
-            SignInResponseMapper.Base(
-                signInUiStateCommunication,
-                navigation,
-                SignInHandleError(resources)
-            ),
-            dispatchers
-        )
-    }
+    fun provideSignInHandleError(resources: ManageResources): SignInHandleError =
+        SignInHandleError(resources)
+
 
     @Provides
     fun provideValidateInput(resources: ManageResources): SignInValidateInput {
