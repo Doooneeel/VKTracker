@@ -19,7 +19,6 @@ interface ProvideTimerDeclaredStyle : ProvideDeclaredStyle<TimerDeclaredStyle> {
             endText = "",
             disableWhenCounting = false
         )
-
         override fun style(context: Context) = style
     }
 
@@ -32,8 +31,12 @@ interface ProvideTimerDeclaredStyle : ProvideDeclaredStyle<TimerDeclaredStyle> {
         override fun TypedArray.style(context: Context): TimerDeclaredStyle {
             val default = Default.style(context)
 
-            val duration = getInteger(R.styleable.TimerButton_timerDuration, default.duration)
-            val interval = getInteger(R.styleable.TimerButton_timerInterval, default.interval)
+            val duration = getInteger(R.styleable.TimerButton_timerDuration,
+                default.duration.toInt()
+            )
+            val interval = getInteger(R.styleable.TimerButton_timerInterval,
+                default.interval.toInt()
+            )
             val endText = getString(R.styleable.TimerButton_timerEndText) ?: default.endText
             val disableWhenCounting = getBoolean(R.styleable.TimerButton_timerDisableWhenCounting,
                 default.disableWhenCounting
@@ -42,8 +45,8 @@ interface ProvideTimerDeclaredStyle : ProvideDeclaredStyle<TimerDeclaredStyle> {
                 default.startFormattedText
 
             return TimerDeclaredStyle(
-                duration = duration,
-                interval = interval,
+                duration = duration.toLong(),
+                interval = interval.toLong(),
                 endText = endText,
                 disableWhenCounting = disableWhenCounting,
                 startFormattedText = startFormattedText
