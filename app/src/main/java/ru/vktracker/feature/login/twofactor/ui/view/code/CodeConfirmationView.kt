@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Parcelable
 import android.text.InputType
 import android.util.AttributeSet
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -15,10 +16,10 @@ import androidx.core.view.children
 import kotlinx.parcelize.Parcelize
 import ru.vktracker.core.ui.ManageKeyboard
 import ru.vktracker.feature.login.twofactor.ui.view.code.listeners.CodeOnChangeListener
-import ru.vktracker.feature.login.twofactor.ui.view.code.listeners.SetCodeOnChangeListener
 import ru.vktracker.feature.login.twofactor.ui.view.code.style.CodeViewDeclaredStyle
 import ru.vktracker.feature.login.twofactor.ui.view.code.style.ProvideCodeDeclaredStyle
-import ru.vktracker.core.ui.view.common.AbstractView
+import ru.vktracker.feature.login.twofactor.ui.view.code.item.CodeItemState
+import ru.vktracker.feature.login.twofactor.ui.view.code.item.CodeItemView
 
 /**
  * @author Danil Glazkov on 05.07.2023, 13:25
@@ -27,28 +28,24 @@ class CodeConfirmationView @JvmOverloads constructor(
     context: Context,
     private val attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
-) : LinearLayoutCompat(context, attrs, defStyleAttr),
-    SetCodeOnChangeListener,
-    AbstractView.Code
-{
+) : LinearLayoutCompat(context, attrs, defStyleAttr), CodeConfirmationViewActions {
+
     private var code: String = ""
-    private val codeLength: Int
-    private val viewStyle: CodeViewDeclaredStyle
+
+    private val declaredStyle: CodeViewDeclaredStyle = when (attrs) {
+        null -> ProvideCodeDeclaredStyle.Default.style(context)
+        else -> ProvideCodeDeclaredStyle.Base(attrs).style(context)
+    }
+
+    private val codeLength: Int = declaredStyle.codeLength
     private val itemSubviews get() = children.filterIsInstance<CodeItemView>()
+
     private val manageKeyboard = ManageKeyboard.Base
     private var onChangeListener: CodeOnChangeListener = CodeOnChangeListener.Unit
 
     init {
         isFocusable = true
         isFocusableInTouchMode = true
-
-        viewStyle = when (attrs) {
-            null -> ProvideCodeDeclaredStyle.Default.style(context)
-            else -> ProvideCodeDeclaredStyle.Base(attrs).style(context)
-        }
-        codeLength = viewStyle.codeLength
-
-        removeAllViews()
         updateState()
     }
 
@@ -68,14 +65,14 @@ class CodeConfirmationView @JvmOverloads constructor(
             }
             true
         }
-        setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) manageKeyboard.showKeyboard(view)
-            else manageKeyboard.hideKeyboard(view)
+        setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) manageKeyboard.showKeyboard(this) else manageKeyboard.hideKeyboard(this)
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN && requestFocus()) {
+            manageKeyboard.showKeyboard(this)
             performClick()
             return true
         }
@@ -83,8 +80,10 @@ class CodeConfirmationView @JvmOverloads constructor(
     }
 
     override fun performClick(): Boolean {
-        manageKeyboard.showKeyboard(this)
-        return super.performClick()
+        super.performClick()
+        requestFocus()
+        updateState()
+        return true
     }
 
     override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection? {
@@ -93,6 +92,10 @@ class CodeConfirmationView @JvmOverloads constructor(
 
         return super.onCreateInputConnection(outAttrs)
     }
+
+    override fun isComplete(): Boolean = code.length == codeLength
+
+    override fun clear() = changeCode("")
 
     override fun code(): String = code
 
@@ -104,13 +107,19 @@ class CodeConfirmationView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable? {
         val superState: Parcelable = super.onSaveInstanceState() ?: return null
-        return SavedState(superState, code)
+        return SavedState(superState, code, hasFocus())
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
         if (state is SavedState) {
             super.onRestoreInstanceState(state.superState)
+            Log.d("TTTT", state.hasFocus.toString())
+            if (state.hasFocus) {
+                requestFocus()
+                updateKeyboard(true)
+            }
             changeCode(state.enteredCode)
+
         } else {
             super.onRestoreInstanceState(state)
         }
@@ -120,33 +129,50 @@ class CodeConfirmationView @JvmOverloads constructor(
     private class SavedState(
         val parcelable: Parcelable,
         val enteredCode: String,
+        val hasFocus: Boolean
     ) : BaseSavedState(parcelable)
+
 
     private fun updateState() {
         if (codeLength != itemSubviews.count()) {
             setupSubviews()
         }
-        val viewCode: String = itemSubviews.map { it.code() }
-            .filterNot { it == " " }
+
+        val viewCode: String = itemSubviews.map { it.symbol() }
+            .filterNot { it == EMPTY }
             .joinToString("")
 
         if (viewCode != code) {
             itemSubviews.forEachIndexed { index: Int, view: CodeItemView ->
-                val symbol = code.getOrElse(index) { EMPTY }
+                val symbol: Char = code.getOrNull(index) ?: EMPTY
+                val isLastItem: Boolean = index == codeLength - 1
 
-                view.updateState(
-                    when (code.length == codeLength) {
-                        true -> CodeItemState.Complete(symbol)
-                        else -> CodeItemState.Input(symbol, code.length == index)
-                    }
+                view.update(
+                    if (isComplete())
+                        completeState(symbol, isLastItem)
+                    else
+                        inputState(symbol, code.length == index, isLastItem)
                 )
             }
         }
     }
 
+
+    private fun inputState(symbol: Char, isActive: Boolean, isLastItem: Boolean) = if (isLastItem)
+        CodeItemState.InputLastItem(symbol, isActive)
+    else
+        CodeItemState.Input(symbol, isActive, hasFocus())
+
+
+    private fun completeState(symbol: Char, isLastItem: Boolean) = if (isLastItem)
+        CodeItemState.CompleteLastItem(symbol)
+    else
+        CodeItemState.Complete(symbol)
+
+
     private fun changeCode(code: String) {
-        onChangeListener.onCodeChange(code, code.length == codeLength)
         this.code = code
+        onChangeListener.onCodeChange(code, isComplete())
         updateState()
     }
 
@@ -156,18 +182,21 @@ class CodeConfirmationView @JvmOverloads constructor(
         repeat(codeLength) { itemIndex: Int ->
             val codeItemView = CodeItemView(context, attrs)
 
-            codeItemView.updateState(
-                CodeItemState.Input(EMPTY, code.length == itemIndex)
-            )
+            codeItemView.update(CodeItemState.Input(EMPTY, code.length == itemIndex, hasFocus()))
             addView(codeItemView)
 
             if (itemIndex < codeLength - 1) {
                 val space = View(context)
-                space.layoutParams = ViewGroup.LayoutParams(viewStyle.itemsSpacing, 0)
+                space.layoutParams = ViewGroup.LayoutParams(declaredStyle.itemsSpacing, 0)
 
                 addView(space)
             }
         }
+    }
+
+    private fun updateKeyboard(show: Boolean) {
+        if (show) manageKeyboard.showKeyboard(this)
+        else manageKeyboard.hideKeyboard(this)
     }
 
     private fun removeLastSymbol() = changeCode(code.dropLast(1))

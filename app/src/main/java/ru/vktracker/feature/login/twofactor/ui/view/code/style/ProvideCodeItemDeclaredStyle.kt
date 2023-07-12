@@ -48,7 +48,7 @@ interface ProvideCodeItemDeclaredStyle : ProvideDeclaredStyle<CodeItemDeclaredSt
                 typeface = Typeface.DEFAULT,
                 cursorSymbol = DEFAULT_CURSOR,
                 enableCursor = true,
-                borderAnimationDuration = BORDER_ANIMATION_DURATION
+                borderAnimationDuration = BORDER_ANIMATION_DURATION,
             )
             return style!!
         }
@@ -120,7 +120,7 @@ interface ProvideCodeItemDeclaredStyle : ProvideDeclaredStyle<CodeItemDeclaredSt
                 typeface = itemTextFont,
                 cursorSymbol = cursorSymbol,
                 enableCursor = enableCursor,
-                borderAnimationDuration = borderAnimationDuration
+                borderAnimationDuration = borderAnimationDuration,
             )
         }
 

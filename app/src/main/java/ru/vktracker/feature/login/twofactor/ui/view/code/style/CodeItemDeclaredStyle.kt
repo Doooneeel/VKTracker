@@ -7,7 +7,7 @@ import androidx.annotation.Px
 /**
  * @author Danil Glazkov on 06.07.2023, 17:02
  */
-data class CodeItemDeclaredStyle(
+class CodeItemDeclaredStyle(
     @Px val width: Int,
     @Px val height: Int,
     @ColorInt val backgroundColor: Int,
