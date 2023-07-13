@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Parcelable
 import android.text.InputType
 import android.util.AttributeSet
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -38,7 +37,6 @@ class CodeConfirmationView @JvmOverloads constructor(
     }
 
     private val codeLength: Int = declaredStyle.codeLength
-    private val itemSubviews get() = children.filterIsInstance<CodeItemView>()
 
     private val manageKeyboard = ManageKeyboard.Base
     private var onChangeListener: CodeOnChangeListener = CodeOnChangeListener.Unit
@@ -65,14 +63,10 @@ class CodeConfirmationView @JvmOverloads constructor(
             }
             true
         }
-        setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) manageKeyboard.showKeyboard(this) else manageKeyboard.hideKeyboard(this)
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN && requestFocus()) {
-            manageKeyboard.showKeyboard(this)
+        if (event.action == MotionEvent.ACTION_DOWN) {
             performClick()
             return true
         }
@@ -81,8 +75,11 @@ class CodeConfirmationView @JvmOverloads constructor(
 
     override fun performClick(): Boolean {
         super.performClick()
+
         requestFocus()
         updateState()
+        manageKeyboard.showKeyboard(this)
+
         return true
     }
 
@@ -113,13 +110,9 @@ class CodeConfirmationView @JvmOverloads constructor(
     override fun onRestoreInstanceState(state: Parcelable) {
         if (state is SavedState) {
             super.onRestoreInstanceState(state.superState)
-            Log.d("TTTT", state.hasFocus.toString())
-            if (state.hasFocus) {
-                requestFocus()
-                updateKeyboard(true)
-            }
-            changeCode(state.enteredCode)
 
+            if (state.hasFocus) performClick()
+            changeCode(state.enteredCode)
         } else {
             super.onRestoreInstanceState(state)
         }
@@ -134,41 +127,29 @@ class CodeConfirmationView @JvmOverloads constructor(
 
 
     private fun updateState() {
-        if (codeLength != itemSubviews.count()) {
+        val items: Sequence<CodeItemView> = children.filterIsInstance<CodeItemView>()
+
+        if (codeLength != items.count()) {
             setupSubviews()
         }
 
-        val viewCode: String = itemSubviews.map { it.symbol() }
+        val viewCode: String = items.map { it.symbol() }
             .filterNot { it == EMPTY }
             .joinToString("")
 
         if (viewCode != code) {
-            itemSubviews.forEachIndexed { index: Int, view: CodeItemView ->
-                val symbol: Char = code.getOrNull(index) ?: EMPTY
-                val isLastItem: Boolean = index == codeLength - 1
+            val isComplete = isComplete()
+
+            items.forEachIndexed { itemIndex: Int, view: CodeItemView ->
+                val symbol: Char = code.getOrNull(itemIndex) ?: EMPTY
 
                 view.update(
-                    if (isComplete())
-                        completeState(symbol, isLastItem)
-                    else
-                        inputState(symbol, code.length == index, isLastItem)
+                    if (isComplete) CodeItemState.Complete(symbol)
+                    else inputState(symbol, itemIndex)
                 )
             }
         }
     }
-
-
-    private fun inputState(symbol: Char, isActive: Boolean, isLastItem: Boolean) = if (isLastItem)
-        CodeItemState.InputLastItem(symbol, isActive)
-    else
-        CodeItemState.Input(symbol, isActive, hasFocus())
-
-
-    private fun completeState(symbol: Char, isLastItem: Boolean) = if (isLastItem)
-        CodeItemState.CompleteLastItem(symbol)
-    else
-        CodeItemState.Complete(symbol)
-
 
     private fun changeCode(code: String) {
         this.code = code
@@ -181,8 +162,7 @@ class CodeConfirmationView @JvmOverloads constructor(
 
         repeat(codeLength) { itemIndex: Int ->
             val codeItemView = CodeItemView(context, attrs)
-
-            codeItemView.update(CodeItemState.Input(EMPTY, code.length == itemIndex, hasFocus()))
+            codeItemView.update(inputState(EMPTY, itemIndex))
             addView(codeItemView)
 
             if (itemIndex < codeLength - 1) {
@@ -194,9 +174,14 @@ class CodeConfirmationView @JvmOverloads constructor(
         }
     }
 
-    private fun updateKeyboard(show: Boolean) {
-        if (show) manageKeyboard.showKeyboard(this)
-        else manageKeyboard.hideKeyboard(this)
+    private fun inputState(symbol: Char, index: Int): CodeItemState {
+        val isActive = code.length == index
+
+        return CodeItemState.Input(
+            symbol = symbol,
+            isActive = isActive && hasFocus(),
+            showCursor = isActive
+        )
     }
 
     private fun removeLastSymbol() = changeCode(code.dropLast(1))

@@ -1,6 +1,5 @@
 package ru.vktracker.feature.login.twofactor.ui.view.code.item
 
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -52,16 +51,10 @@ class CodeItemView @JvmOverloads constructor(
     private val textSize: Size = calculateTextSize()
 
     override fun update(state: CodeItemState) {
-        if (currentState == state) return
-        currentState = state
+        if (currentState != state) {
+            currentState = state
 
-        val animator: ObjectAnimator? = state.borderAnimator(borderPaint, declaredStyle)
-
-        if (animator != null) {
-            animator.duration = declaredStyle.borderAnimationDuration.toLong()
-            animator.addUpdateListener { invalidate() }
-            animator.start()
-        } else {
+            borderPaint.color = state.borderColor(declaredStyle)
             invalidate()
         }
     }
