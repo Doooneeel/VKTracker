@@ -20,5 +20,4 @@ class CodeItemDeclaredStyle(
     val enableCursor: Boolean,
     val typeface: Typeface,
     val cursorSymbol: Char,
-    val borderAnimationDuration: Int,
 )

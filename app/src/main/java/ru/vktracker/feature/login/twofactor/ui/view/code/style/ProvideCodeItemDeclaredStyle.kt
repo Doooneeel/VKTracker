@@ -24,7 +24,6 @@ interface ProvideCodeItemDeclaredStyle : ProvideDeclaredStyle<CodeItemDeclaredSt
         private const val BORDER_RADIUS = 4F
         private const val TEXT_SIZE = 22F
         private const val SIZE = 48F
-        private const val BORDER_ANIMATION_DURATION = 0
 
         private var style: CodeItemDeclaredStyle? = null
 
@@ -48,7 +47,6 @@ interface ProvideCodeItemDeclaredStyle : ProvideDeclaredStyle<CodeItemDeclaredSt
                 typeface = Typeface.DEFAULT,
                 cursorSymbol = DEFAULT_CURSOR,
                 enableCursor = true,
-                borderAnimationDuration = BORDER_ANIMATION_DURATION,
             )
             return style!!
         }
@@ -92,10 +90,6 @@ interface ProvideCodeItemDeclaredStyle : ProvideDeclaredStyle<CodeItemDeclaredSt
             val enableCursor = getBoolean(CodeConfirmationView_codeEnableCursor,
                 defaultSymbolStyle.enableCursor
             )
-            val borderAnimationDuration = getInteger(
-                CodeConfirmationView_codeItemBorderAnimationDuration,
-                defaultSymbolStyle.borderAnimationDuration
-            )
             val cursorSymbol: Char = if (enableCursor) {
                 val defaultCursorSymbol = defaultSymbolStyle.cursorSymbol
                 val codeCursorSymbol = getString(CodeConfirmationView_codeCursorSymbol)
@@ -120,7 +114,6 @@ interface ProvideCodeItemDeclaredStyle : ProvideDeclaredStyle<CodeItemDeclaredSt
                 typeface = itemTextFont,
                 cursorSymbol = cursorSymbol,
                 enableCursor = enableCursor,
-                borderAnimationDuration = borderAnimationDuration,
             )
         }
 

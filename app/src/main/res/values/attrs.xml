@@ -27,9 +27,7 @@
         <attr name="codeItemBorderActiveColor" format="color" />
         <attr name="codeItemBorderWidth" format="dimension" />
         <attr name="codeItemBorderCornerRadius" format="dimension" />
-        <attr name="codeItemBorderAnimationDuration" format="integer" />
 
-        <attr name="codeBorderErrorColor" format="color" />
         <attr name="codeCursorSymbol" format="string" />
         <attr name="codeEnableCursor" format="boolean" />
         <attr name="codeItemsSpacing" format="dimension" />
