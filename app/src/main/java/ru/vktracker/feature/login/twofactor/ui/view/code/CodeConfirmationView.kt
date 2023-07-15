@@ -63,10 +63,14 @@ class CodeConfirmationView @JvmOverloads constructor(
             }
             true
         }
+        setOnFocusChangeListener { view, hasFocus ->
+            updateState()
+            if (!hasFocus) manageKeyboard.hideKeyboard(view)
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
+        if (event.action == MotionEvent.ACTION_DOWN && requestFocus()) {
             performClick()
             return true
         }
@@ -77,8 +81,8 @@ class CodeConfirmationView @JvmOverloads constructor(
         super.performClick()
 
         requestFocus()
-        updateState()
         manageKeyboard.showKeyboard(this)
+        updateState()
 
         return true
     }
@@ -104,14 +108,12 @@ class CodeConfirmationView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable? {
         val superState: Parcelable = super.onSaveInstanceState() ?: return null
-        return SavedState(superState, code, hasFocus())
+        return SavedState(superState, code)
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
         if (state is SavedState) {
             super.onRestoreInstanceState(state.superState)
-
-            if (state.hasFocus) performClick()
             changeCode(state.enteredCode)
         } else {
             super.onRestoreInstanceState(state)
@@ -122,7 +124,6 @@ class CodeConfirmationView @JvmOverloads constructor(
     private class SavedState(
         val parcelable: Parcelable,
         val enteredCode: String,
-        val hasFocus: Boolean
     ) : BaseSavedState(parcelable)
 
 
@@ -133,21 +134,16 @@ class CodeConfirmationView @JvmOverloads constructor(
             setupSubviews()
         }
 
-        val viewCode: String = items.map { it.symbol() }
-            .filterNot { it == EMPTY }
-            .joinToString("")
+        val isComplete: Boolean = isComplete()
+        val hasFocus = hasFocus()
 
-        if (viewCode != code) {
-            val isComplete = isComplete()
+        items.forEachIndexed { itemIndex: Int, view: CodeItemView ->
+            val symbol: Char = code.getOrNull(itemIndex) ?: EMPTY
 
-            items.forEachIndexed { itemIndex: Int, view: CodeItemView ->
-                val symbol: Char = code.getOrNull(itemIndex) ?: EMPTY
-
-                view.update(
-                    if (isComplete) CodeItemState.Complete(symbol)
-                    else inputState(symbol, itemIndex)
-                )
-            }
+            view.update(
+                if (isComplete) CodeItemState.Complete(symbol, hasFocus)
+                else inputState(symbol, itemIndex, hasFocus)
+            )
         }
     }
 
@@ -159,10 +155,11 @@ class CodeConfirmationView @JvmOverloads constructor(
 
     private fun setupSubviews() {
         removeAllViews()
+        val hasFocus = hasFocus()
 
         repeat(codeLength) { itemIndex: Int ->
             val codeItemView = CodeItemView(context, attrs)
-            codeItemView.update(inputState(EMPTY, itemIndex))
+            codeItemView.update(inputState(EMPTY, itemIndex, hasFocus))
             addView(codeItemView)
 
             if (itemIndex < codeLength - 1) {
@@ -174,12 +171,12 @@ class CodeConfirmationView @JvmOverloads constructor(
         }
     }
 
-    private fun inputState(symbol: Char, index: Int): CodeItemState {
+    private fun inputState(symbol: Char, index: Int, hasFocus: Boolean): CodeItemState {
         val isActive = code.length == index
 
         return CodeItemState.Input(
             symbol = symbol,
-            isActive = isActive && hasFocus(),
+            isActive = isActive && hasFocus,
             showCursor = isActive
         )
     }

@@ -36,7 +36,10 @@ interface CodeItemState {
         override fun borderColor(style: CodeItemDeclaredStyle) = style.borderColor
     }
 
-    data class Complete(private val symbol: Char) : Abstract(symbol, true, false)
+    data class Complete(
+        private val symbol: Char,
+        private val hasFocus: Boolean
+    ) : Abstract(symbol, hasFocus, false)
 
     data class Input(
         private val symbol: Char,

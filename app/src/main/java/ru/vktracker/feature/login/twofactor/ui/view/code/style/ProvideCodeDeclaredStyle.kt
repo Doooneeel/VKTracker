@@ -13,20 +13,17 @@ import ru.vktracker.core.ui.view.common.ProvideDeclaredStyle.*
 interface ProvideCodeDeclaredStyle : ProvideDeclaredStyle<CodeViewDeclaredStyle> {
 
     object Default : ProvideCodeDeclaredStyle {
-        private val style = CodeViewDeclaredStyle(
-            codeLength = 4,
-            itemsSpacing = 8
-        )
-        override fun style(context: Context) = style
+        private val style = CodeViewDeclaredStyle(codeLength = 4, itemsSpacing = 8)
+        override fun style(context: Context): CodeViewDeclaredStyle = style
     }
 
-    class Base(attributeSet: AttributeSet) : Abstract<CodeViewDeclaredStyle>(attributeSet),
-        ProvideCodeDeclaredStyle
+    class Base(attributeSet: AttributeSet) :
+        Abstract<CodeViewDeclaredStyle>(attributeSet), ProvideCodeDeclaredStyle
     {
         override val styleRes: IntArray = CodeConfirmationView
 
         override fun TypedArray.style(context: Context): CodeViewDeclaredStyle {
-            val defaultStyle = Default.style(context)
+            val defaultStyle: CodeViewDeclaredStyle = Default.style(context)
 
             return CodeViewDeclaredStyle(
                 codeLength = getInt(CodeConfirmationView_codeLength, defaultStyle.codeLength),
