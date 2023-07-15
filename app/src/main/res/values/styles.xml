@@ -11,4 +11,13 @@
         <item name="android:layout_margin">@dimen/distance_normal</item>
     </style>
 
+    <style name="LinearProgressIndicatorStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">invisible</item>
+        <item name="hideAnimationBehavior">outward</item>
+        <item name="showAnimationBehavior">inward</item>
+    </style>
+
 </resources>

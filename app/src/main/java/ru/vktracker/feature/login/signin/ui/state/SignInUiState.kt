@@ -2,7 +2,8 @@ package ru.vktracker.feature.login.signin.ui.state
 
 import kotlinx.parcelize.Parcelize
 import ru.vktracker.R
-import ru.vktracker.core.ui.UiState
+import ru.vktracker.core.ui.state.*
+import ru.vktracker.core.ui.state.UiState.*
 import ru.vktracker.databinding.FragmentSignInBinding
 import ru.vktracker.feature.login.signin.ui.dialogs.SignInFailDialog
 
@@ -12,93 +13,71 @@ import ru.vktracker.feature.login.signin.ui.dialogs.SignInFailDialog
 interface SignInUiState : UiState<FragmentSignInBinding> {
 
     @Parcelize
-    object Nothing : UiState.AbstractNothing<FragmentSignInBinding>(), SignInUiState
+    object Nothing : AbstractNothing<FragmentSignInBinding>(), SignInUiState
 
 
-    @Parcelize
-    class Enter : SignInUiState {
-        override fun update(binding: FragmentSignInBinding) {
-            binding.progressIndicator.show()
-            Inactive.update(binding)
+    abstract class Abstract(
+        private val progress: ProgressUiState,
+        private val fab: FabUiState,
+        private val navigationIcon: ToolbarUiState,
+        private val inputViews: ViewUiState,
+    ) : SignInUiState {
+        override fun update(view: FragmentSignInBinding) = view.run {
+            progress.update(progressIndicator)
+            fab.update(loginFloatingActionButton)
+            navigationIcon.update(toolBar)
+            inputViews.update(loginTextInputLayout)
+            inputViews.update(passwordTextInputLayout)
         }
     }
 
 
     @Parcelize
+    class Login : Abstract(
+        ProgressUiState.Show, FabUiState.Hide, ToolbarUiState.HideNavIcon, ViewUiState.Disable
+    )
+
+
+    @Parcelize
     object ValidInput : SignInUiState {
-        override fun update(binding: FragmentSignInBinding) =
-            binding.loginFloatingActionButton.run {
-                isClickable = true
-                show()
-            }
+        override fun update(view: FragmentSignInBinding) = FabUiState.Show.update(
+            view.loginFloatingActionButton
+        )
     }
 
 
     @Parcelize
     object InvalidInput : SignInUiState {
-        override fun update(binding: FragmentSignInBinding) =
-            binding.loginFloatingActionButton.run {
-                isClickable = false
-                hide()
-            }
-    }
-
-
-    @Parcelize
-    object Inactive : SignInUiState {
-        override fun update(binding: FragmentSignInBinding) = binding.run {
-            loginFloatingActionButton.hide()
-
-            toolBar.navigationIcon = null
-
-            passwordTextInputLayout.isEnabled = false
-            loginTextInputLayout.isEnabled = false
-        }
+        override fun update(view: FragmentSignInBinding) = FabUiState.Hide.update(
+            view.loginFloatingActionButton
+        )
     }
 
     @Parcelize
-    object Active : SignInUiState {
-        override fun update(binding: FragmentSignInBinding) = binding.run {
-            progressIndicator.hide()
-
-            toolBar.setNavigationIcon(R.drawable.ic_arrow_back_tiny)
-
-            passwordTextInputLayout.isEnabled = true
-            loginTextInputLayout.isEnabled = true
-        }
-    }
-
-
-    @Parcelize
-    class ErrorDialog(
+    class FailDialog(
         private val message: String,
-        private var dialogIsCancel: Boolean = false
-    ) : SignInUiState {
-
-        private fun active(binding: FragmentSignInBinding) = binding.run {
-            loginFloatingActionButton.setText(R.string.to_retry)
-            loginFloatingActionButton.show()
-
-            Active.update(binding)
-        }
-
-        override fun update(binding: FragmentSignInBinding) {
-            if (dialogIsCancel) {
-                active(binding)
-            } else {
-                binding.progressIndicator.hide()
-                Inactive.update(binding)
-
-                val dialog = SignInFailDialog(message) {
-                    dialogIsCancel = true
-                    active(binding)
-                }
-                dialog.show(binding.root)
-            }
+        private val dialogIsCancel: DialogCancelState = DialogCancelState.Base(),
+    ) : AbstractDialog<FragmentSignInBinding>(
+        OpeningDialog(), ClosingDialog(), dialogIsCancel
+    ) , SignInUiState {
+        override fun showDialog(view: FragmentSignInBinding) {
+            SignInFailDialog(message) { dialogCanceled(view) }.show(view.root)
         }
     }
 
+    @Parcelize
+    private class ClosingDialog : Abstract(
+        ProgressUiState.Hide, FabUiState.Show, ToolbarUiState.ShowNavIcon, ViewUiState.Enable
+    ) {
+        override fun update(view: FragmentSignInBinding) {
+            view.loginFloatingActionButton.setText(R.string.to_retry)
+            super.update(view)
+        }
+    }
 
-
+    @Parcelize
+    private class OpeningDialog : Abstract(
+        ProgressUiState.Hide, FabUiState.Hide, ToolbarUiState.HideNavIcon, ViewUiState.Disable
+    )
 
 }

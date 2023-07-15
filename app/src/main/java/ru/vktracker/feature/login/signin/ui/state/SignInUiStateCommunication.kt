@@ -14,7 +14,7 @@ interface SignInUiStateCommunication : Communication.Mutable<SignInUiState> {
     ) : Communication.SavedStateUiWithHandler<SignInUiState>(
         handleUiState,
         savedState,
-        "SignInUiStateCommunication"
+        SignInUiStateCommunication::class.java.simpleName
     ) , SignInUiStateCommunication
 
 }

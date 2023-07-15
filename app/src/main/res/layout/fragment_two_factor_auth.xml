@@ -61,7 +61,6 @@
                     app:codeCursorSymbol="_"
                     app:codeItemBackgroundColor="@color/transparent"
                     app:codeItemBorderActiveColor="?attr/colorPrimary"
-                    app:codeItemBorderAnimationDuration="@integer/code_border_animation_duration"
                     app:codeItemBorderColor="?attr/colorOutline"
                     app:codeItemBorderCornerRadius="@dimen/radius_medium"
                     app:codeItemBorderWidth="2dp"
@@ -84,6 +83,7 @@
                     android:id="@+id/descriptionTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:freezesText="true"
                     android:gravity="center_horizontal"
                     android:paddingHorizontal="@dimen/distance_normal"
                     android:paddingBottom="@dimen/distance_small"
@@ -103,7 +103,6 @@
                     android:paddingHorizontal="@dimen/distance_normal">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/materialTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -111,15 +110,18 @@
                         android:text="@string/no_code_received"
                         android:textAppearance="?attr/textAppearanceBodyMedium" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/retryChipButton"
+                    <ru.vktracker.feature.login.twofactor.ui.view.timerbutton.TimerChipView
+                        android:id="@+id/retryTimerChipButton"
                         style="@style/Widget.Material3.Chip.Assist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
                         android:gravity="center_vertical"
+                        android:text="@string/resend_code"
                         android:textAppearance="?attr/textAppearanceBodyMedium"
-                        tools:text="@string/resend_two_fa_code" />
+                        app:timerDisableWhenCounting="true"
+                        app:timerDuration="@integer/vk_resend_code_duration_millis"
+                        app:timerEndText="@string/resend_code"
+                        app:timerStartFormattedText="@string/resend_code_with_seconds" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

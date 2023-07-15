@@ -9,13 +9,10 @@ import ru.vktracker.core.ui.resources.ProvideString
  */
 interface SignInHandleUiState : HandleUiState<SignInUiState> {
 
-    class Base (private val resources: ProvideString.Single) : SignInHandleUiState {
-
+    class Base(private val resources: ProvideString.Single) : SignInHandleUiState {
         override fun handle(savedState: SignInUiState?): SignInUiState? {
-            return if (savedState is SignInUiState.Enter) {
-                SignInUiState.ErrorDialog(
-                    resources.string(R.string.timed_out_error)
-                )
+            return if (savedState is SignInUiState.Login) {
+                SignInUiState.FailDialog(resources.string(R.string.timed_out_error))
             } else {
                 savedState
             }

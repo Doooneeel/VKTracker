@@ -42,6 +42,7 @@ class TwoFactorAuthFragment : BaseFragmentViewModel<Binding, TwoFactorAuthViewMo
     override fun Binding.registerListeners() {
         toolBar.setNavigationOnClickListener(
             OnThrottleClickListener.Medium(throttle) {
+                hideKeyboard(requireView())
                 viewModel.navigateToSignIn()
             }
         )
@@ -56,7 +57,7 @@ class TwoFactorAuthFragment : BaseFragmentViewModel<Binding, TwoFactorAuthViewMo
             OnThrottleClickListener.Medium(throttle) {
                 viewModel.confirmCode(confirmCodeView.code())
                 confirmCodeView.clearFocus()
-                hideKeyboard(it)
+                hideKeyboard(requireView())
             }
         )
 

@@ -99,6 +99,7 @@
         android:id="@+id/loginFloatingActionButton"
         style="@style/FabStyle"
         android:text="@string/further"
+        android:freezesText="true"
         android:visibility="invisible"
         app:icon="@drawable/ic_login_tiny"
         tools:visibility="visible" />

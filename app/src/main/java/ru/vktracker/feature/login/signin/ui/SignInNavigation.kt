@@ -21,10 +21,10 @@ interface SignInNavigation {
 
     }
 
-    interface Combine : External, Internal
+    interface Combined : External, Internal
 
 
-    class Base(private val communication: NavigationCommunication) : Combine {
+    class Base(private val communication: NavigationCommunication) : Combined {
 
         override fun navigateToTwoFactorScreen(phoneMask: String, redirectUrl: String) =
             communication.put(

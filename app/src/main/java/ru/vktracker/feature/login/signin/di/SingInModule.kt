@@ -40,7 +40,7 @@ class SingInModule {
 
     @Provides
     @ViewModelScoped
-    fun provideSignInNavigation(): SignInNavigation.Combine =
+    fun provideSignInNavigation(): SignInNavigation.Combined =
         SignInNavigation.Base(childNavigationCommunication)
 
 

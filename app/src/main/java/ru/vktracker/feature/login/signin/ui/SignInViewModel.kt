@@ -20,12 +20,12 @@ interface SignInViewModel : BaseViewModel, SignInNavigation.External, SignInComm
 
 
     @HiltViewModel
-    class Base @Inject constructor(
+    class Base @Inject constructor (
         private val interactor: SighInInteractor,
         private val communications: SignInCommunications.Mutable,
         private val validateInput: SignInValidateInput,
         private val handleError: SignInHandleError,
-        private val navigation: SignInNavigation.Combine,
+        private val navigation: SignInNavigation.Combined,
         private val dispatchers: CoroutineDispatchers,
     ) : ViewModel(),
         SignInViewModel,
@@ -39,8 +39,9 @@ interface SignInViewModel : BaseViewModel, SignInNavigation.External, SignInComm
             }
 
             override fun failure(exception: SignInDomainException) = communications.put(
-                SignInUiState.ErrorDialog(message = handleError.handle(exception))
+                SignInUiState.FailDialog(message = handleError.handle(exception))
             )
+
             override fun mapTwoFactorAuth(phoneMask: String, redirectUrl: String) {
                 communications.put(SignInUiState.Nothing)
                 navigation.navigateToTwoFactorScreen(phoneMask, redirectUrl)
@@ -48,7 +49,7 @@ interface SignInViewModel : BaseViewModel, SignInNavigation.External, SignInComm
         }
 
         override fun login(login: String, password: CharArray) {
-            communications.put(SignInUiState.Enter())
+            communications.put(SignInUiState.Login())
 
             dispatchers.io(viewModelScope) {
                 val response: SignInDomainResult = interactor.login(login, password)
