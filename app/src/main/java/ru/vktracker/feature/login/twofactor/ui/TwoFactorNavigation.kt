@@ -9,18 +9,18 @@ import ru.vktracker.core.ui.navigation.NavigationCommunication
  */
 interface TwoFactorNavigation {
 
-    interface Fragment {
+    interface External {
         fun navigateToSignIn()
     }
 
-    interface ViewModel {
+    interface Internal {
         fun navigateToTabsFragment(token: String)
     }
 
-    interface Combine : Fragment, ViewModel
+    interface Combined : External, Internal
 
 
-    class Base(private val navigationCommunication: NavigationCommunication) : Combine {
+    class Base(private val navigationCommunication: NavigationCommunication) : Combined {
 
         override fun navigateToSignIn() = navigationCommunication.put(
             Navigation.ID(R.id.action_two_factor_to_signIn)

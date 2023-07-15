@@ -1,20 +1,17 @@
 package ru.vktracker.feature.login.twofactor.ui
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.vktracker.R
-import ru.vktracker.core.ui.dialog.AbstractDialog
 import ru.vktracker.core.ui.fragment.BaseFragmentViewModel
 import ru.vktracker.core.ui.navigation.Navigation
-import ru.vktracker.core.ui.text.Message
 import ru.vktracker.core.ui.view.common.listeners.OnThrottleClickListener
-import ru.vktracker.core.ui.view.fab.FabViewState
-import ru.vktracker.core.ui.view.progress.ProgressViewState
-import ru.vktracker.feature.login.twofactor.ui.view.ResendCodeViewState
+import ru.vktracker.feature.login.twofactor.ui.state.TwoFactorUiState
+import ru.vktracker.feature.login.twofactor.ui.view.code.listeners.CodeOnChangeListener
 import ru.vktracker.databinding.FragmentTwoFactorAuthBinding as Binding
 
 /**
@@ -36,7 +33,9 @@ class TwoFactorAuthFragment : BaseFragmentViewModel<Binding, TwoFactorAuthViewMo
         viewLifecycleOwner.lifecycleScope.launch {
             val animationDuration = resources.getInteger(R.integer.fragment_animation_duration)
             delay(animationDuration.toLong())
-            binding.confirmCodeView.requestFocus()
+
+            binding.retryTimerChipButton.startTimer()
+            binding.confirmCodeView.performClick()
         }
     }
 
@@ -47,47 +46,34 @@ class TwoFactorAuthFragment : BaseFragmentViewModel<Binding, TwoFactorAuthViewMo
             }
         )
 
-        confirmCodeView.setOnCodeChangeListener { code: String, isComplete: Boolean ->
-            viewModel.changeInputCode(code, isComplete)
-        }
+        confirmCodeView.setOnCodeChangeListener(
+            CodeOnChangeListener.Focused(confirmCodeView) { _, isComplete: Boolean ->
+                viewModel.changeConfirmationCodeState(isComplete)
+            }
+        )
 
         confirmFloatingActionButton.setOnClickListener(
             OnThrottleClickListener.Medium(throttle) {
                 viewModel.confirmCode(confirmCodeView.code())
+                confirmCodeView.clearFocus()
                 hideKeyboard(it)
             }
         )
 
-        retryChipButton.setOnClickListener(
+        retryTimerChipButton.setOnClickListener(
             OnThrottleClickListener.Medium(throttle) {
+                retryTimerChipButton.startTimer()
                 viewModel.resendCode()
             }
         )
     }
 
     override fun TwoFactorAuthViewModel.registerObservers() {
+        observe(viewLifecycleOwner) { uiState: TwoFactorUiState ->
+            uiState.update(binding)
+        }
         observeChildNavigation(viewLifecycleOwner) { navigation: Navigation ->
             navigation.navigate(navController)
-        }
-
-        observeAboutSendingMessage(viewLifecycleOwner) { message: Message ->
-            message.apply(binding.descriptionTextView)
-        }
-
-        observeFabViewState(viewLifecycleOwner) { viewState: FabViewState ->
-            viewState.apply(binding.confirmFloatingActionButton)
-        }
-
-        observeResendCodeViewState(viewLifecycleOwner) { viewState: ResendCodeViewState ->
-            viewState.apply(binding.retryChipButton)
-        }
-
-        observeDialog(viewLifecycleOwner) { dialog: AbstractDialog ->
-            dialog.show(requireContext(), lifecycle)
-        }
-
-        observeProgress(viewLifecycleOwner) { progressViewState: ProgressViewState ->
-            progressViewState.apply(binding.progressIndicator)
         }
     }
 
