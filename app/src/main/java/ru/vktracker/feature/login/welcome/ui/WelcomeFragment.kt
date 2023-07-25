@@ -27,8 +27,8 @@ class WelcomeFragment : BaseFragmentViewModel<Binding, WelcomeViewModel>(ID) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        WelcomeUiState.Tracking.update(binding.welcomeItemTracking)
-        WelcomeUiState.Design.update(binding.welcomeItemDesign)
+        WelcomeUiState.Tracking().update(binding.welcomeItemTracking)
+        WelcomeUiState.Design().update(binding.welcomeItemDesign)
 
     }
 
