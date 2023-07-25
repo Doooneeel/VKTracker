@@ -5,12 +5,14 @@ package ru.vktracker.core.ui.view.common
  */
 interface Throttle {
 
-    fun update(time: Long)
+    fun update(time: Long = System.currentTimeMillis())
 
     fun lastTime(): Long
 
 
-    class Base(private var lastTime: Long = 0L) : Throttle {
+    class Base : Throttle {
+
+        private var lastTime: Long = 0L
 
         override fun update(time: Long) { lastTime = time }
 

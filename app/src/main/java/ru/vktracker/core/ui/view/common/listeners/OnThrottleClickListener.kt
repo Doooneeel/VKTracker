@@ -1,6 +1,5 @@
 package ru.vktracker.core.ui.view.common.listeners
 
-import android.os.SystemClock
 import android.view.View
 import ru.vktracker.core.ui.view.common.Throttle
 
@@ -15,8 +14,10 @@ interface OnThrottleClickListener : View.OnClickListener {
         private val action: (View) -> Unit
     ) : OnThrottleClickListener {
         override fun onClick(view: View) {
-            if (SystemClock.elapsedRealtime() - clickTime.lastTime() > interval) {
-                clickTime.update(SystemClock.elapsedRealtime())
+            val elapsedRealtime = System.currentTimeMillis()
+
+            if (elapsedRealtime - clickTime.lastTime() > interval) {
+                clickTime.update(elapsedRealtime)
                 action.invoke(view)
             }
         }
