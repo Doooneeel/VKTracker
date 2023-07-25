@@ -45,13 +45,16 @@
             app:destination="@id/navigation_profile" />
 
     </fragment>
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ru.vktracker.feature.settings.ui.SettingsFragment"
         android:label="SettingsFragment">
+
         <action
             android:id="@+id/action_settingsFragment_to_navigation_profile"
             app:destination="@id/navigation_profile" />
+
     </fragment>
 
 </navigation>

@@ -3,21 +3,26 @@
     <!--DISTANCE-->
     <dimen name="distance_tiny">4dp</dimen>
     <dimen name="distance_small">8dp</dimen>
-    <dimen name="distance_medium">16dp</dimen>
+    <dimen name="distance_medium">12dp</dimen>
     <dimen name="distance_normal">20dp</dimen>
     <dimen name="distance_large">32dp</dimen>
     <dimen name="distance_huge">64dp</dimen>
 
     <!--RADIUS-->
     <dimen name="radius_tiny">6dp</dimen>
+    <dimen name="radius_medium">12dp</dimen>
 
 
     <!--ICONS-->
     <dimen name="icon_tiny">24dp</dimen>
-    <dimen name="icon_small">42dp</dimen>
-    <dimen name="icon_medium">40dp</dimen>
+    <dimen name="icon_small">28dp</dimen>
+    <dimen name="icon_medium">36dp</dimen>
     <dimen name="icon_normal">56dp</dimen>
     <dimen name="icon_large">82dp</dimen>
+
+    <dimen name="code_item_text_size">22sp</dimen>
+    <dimen name="code_item_height">50dp</dimen>
+    <dimen name="code_item_width">50dp</dimen>
 
 
 </resources>

@@ -5,31 +5,29 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.vktracker.R
-import ru.vktracker.core.ui.BaseViewModel
-import ru.vktracker.core.ui.navigation.Screen
-import ru.vktracker.core.ui.navigation.ScreenCommunication
-import ru.vktracker.feature.login.welcome.di.WelcomeModule.*
+import ru.vktracker.core.ui.viewmodel.BaseViewModel
+import ru.vktracker.core.ui.navigation.Navigation
+import ru.vktracker.core.ui.navigation.NavigationCommunication
 import javax.inject.Inject
 
 /**
  * @author Danil Glazkov on 22.06.2023, 18:18
  */
-interface WelcomeViewModel : BaseViewModel, ScreenCommunication.Observe {
+interface WelcomeViewModel : BaseViewModel, NavigationCommunication.ObserveChild {
 
     fun navigateToSingInFragment()
 
 
     @HiltViewModel
     class Base @Inject constructor(
-        @ModuleQualifier
-        private val communication: ScreenCommunication
+        private val communication: NavigationCommunication,
     ) : ViewModel(), WelcomeViewModel {
 
         override fun navigateToSingInFragment() = communication.put(
-            Screen.Base(R.id.action_welcome_to_signIn)
+            Navigation.ID(R.id.action_welcome_to_signIn)
         )
 
-        override fun observeScreen(owner: LifecycleOwner, observer: Observer<Screen>) =
+        override fun observeChildNavigation(owner: LifecycleOwner, observer: Observer<Navigation>) =
             communication.observe(owner, observer)
     }
 }

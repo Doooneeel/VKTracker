@@ -1,19 +1,52 @@
 <resources>
 
-    <declare-styleable name="ProfileMenuItemLayout">
+    <declare-styleable name="ItemView">
         <attr name="titleText" format="string" />
         <attr name="descriptionText" format="string" />
         <attr name="icon" format="reference" />
+        <attr name="iconPosition" format="enum">
+            <enum name="topWithTitle" value="1" />
+            <enum name="side" value="2" />
+        </attr>
+        <attr name="iconSize" format="dimension" />
+        <attr name="cardStyle" format="reference" />
+        <attr name="enableBackground" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="ConfirmationCodeLayout">
-        <attr name="itemPadding" format="dimension" />
+    <declare-styleable name="CodeConfirmationView">
+
+        <attr name="codeItemWidth" format="dimension" />
+        <attr name="codeItemHeight" format="dimension" />
+        <attr name="codeItemBackgroundColor" format="color" />
+
+        <attr name="codeItemTextSize" format="dimension" />
+        <attr name="codeItemTextColor" format="color" />
+        <attr name="codeItemTextFont" format="reference" />
+
+        <attr name="codeItemBorderColor" format="color" />
+        <attr name="codeItemBorderActiveColor" format="color" />
+        <attr name="codeItemBorderWidth" format="dimension" />
+        <attr name="codeItemBorderCornerRadius" format="dimension" />
+
+        <attr name="codeCursorSymbol" format="string" />
+        <attr name="codeEnableCursor" format="boolean" />
+        <attr name="codeItemsSpacing" format="dimension" />
         <attr name="codeLength" format="integer" />
+
+    </declare-styleable>
+
+    <declare-styleable name="TimerButton">
+        <attr name="timerDuration" format="integer" />
+        <attr name="timerInterval" format="integer" />
+        <attr name="timerEndText" format="string" />
+        <attr name="timerStartFormattedText" format="string" />
+        <attr name="timerDisableWhenCounting" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="SkeletonTextView">
         <attr name="enableSkeleton" format="boolean" />
     </declare-styleable>
+
 
     <declare-styleable name="PasswordInputEditText">
         <attr name="passwordMaxLength" format="integer" />

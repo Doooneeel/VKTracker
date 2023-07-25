@@ -1,46 +1,87 @@
 package ru.vktracker.feature.login.signin.ui
 
-import android.app.Activity
-import android.content.Context
-import android.inputmethodservice.InputMethodService
-import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.vk.api.sdk.VK
+import androidx.lifecycle.lifecycleScope
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.vktracker.R
-import ru.vktracker.core.ui.BaseFragmentViewModel
-import ru.vktracker.core.ui.Throttle
-import ru.vktracker.core.ui.OnThrottleClickListener
-import ru.vktracker.core.ui.navigation.Screen
-import ru.vktracker.databinding.FragmentSignInBinding
+import ru.vktracker.core.ui.fragment.BaseFragmentViewModel
+import ru.vktracker.core.ui.navigation.Navigation
+import ru.vktracker.core.ui.view.common.listeners.OnThrottleClickListener
+import ru.vktracker.core.ui.view.common.listeners.SingleEditorActionListener
+import ru.vktracker.core.ui.view.text.SingleTextWatcher
+import ru.vktracker.feature.login.signin.ui.state.SignInUiState
 import ru.vktracker.databinding.FragmentSignInBinding as Binding
 
 /**
  * @author Danil Glazkov on 01.06.2023, 22:28
  */
 @AndroidEntryPoint
-class SignInFragment : BaseFragmentViewModel<Binding, SignInViewModel>(ID, Binding::inflate) {
+class SignInFragment : BaseFragmentViewModel<Binding, SignInViewModel>(ID) {
 
-    override val viewModel: SignInViewModel by viewModels<SignInViewModel.Base>()
-    override val hasBottomBar = true
-
-    override fun FragmentSignInBinding.registerClickListeners(throttle: Throttle) {
-        toolBar.setNavigationOnClickListener(
-            OnThrottleClickListener.Longer(throttle) { viewModel.navigateToWelcomeScreen() }
-        )
-        loginFloatingActionButton.setOnClickListener(
-            OnThrottleClickListener.Longer(throttle) { viewModel.navigateToTabsScreen() }
-        )
+    companion object {
+        private const val ID = R.layout.fragment_sign_in
     }
 
-    override fun SignInViewModel.registerObservers() {
-        observeScreen(viewLifecycleOwner) { screen: Screen ->
-            screen.navigate(navController)
+    override val viewModel: SignInViewModel by viewModels<SignInViewModel.Base>()
+    override val binding: Binding by viewBinding(Binding::bind)
+
+    override fun handleFirstRun() {
+        throttle.update()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(resources.getInteger(R.integer.fragment_animation_duration).toLong())
+
+            binding.loginInputEditText.requestFocus()
+            showKeyboard(binding.loginInputEditText)
         }
     }
 
-    companion object {
-        private val ID = R.layout.fragment_sign_in
+    override fun Binding.registerListeners() {
+        val inputViews = listOf(loginInputEditText, passwordInputEditText)
+
+        toolBar.setNavigationOnClickListener(OnThrottleClickListener.Medium(throttle) {
+            viewModel.navigateToWelcomeScreen()
+            hideKeyboard(root)
+        })
+
+        loginFloatingActionButton.setOnClickListener(OnThrottleClickListener.Medium(throttle) {
+            viewModel.login(loginInputEditText.input(), passwordInputEditText.password())
+            requireActivity().currentFocus?.clearFocus()
+        })
+
+        inputViews.forEach { inputEditText: TextInputEditText ->
+            inputEditText.addTextChangedListener(
+                SingleTextWatcher.FocusedOnTextChanged(inputEditText) {
+                    viewModel.changeInput(
+                        loginInputEditText.input(),
+                        passwordInputEditText.password()
+                    )
+                }
+            )
+        }
+
+        passwordInputEditText.setOnEditorActionListener(SingleEditorActionListener.Done {
+            passwordInputEditText.clearFocus()
+            hideKeyboard(root)
+
+            if (loginFloatingActionButton.isVisible) {
+                loginFloatingActionButton.performClick()
+            }
+        })
+    }
+
+    override fun SignInViewModel.registerObservers() {
+        observe(viewLifecycleOwner) { uiState: SignInUiState ->
+            uiState.update(binding)
+        }
+        observeChildNavigation(viewLifecycleOwner) { navigation: Navigation ->
+            navigation.navigate(navController)
+        }
     }
 
 }
