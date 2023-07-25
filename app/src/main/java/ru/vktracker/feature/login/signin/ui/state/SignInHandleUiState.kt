@@ -1,8 +1,8 @@
 package ru.vktracker.feature.login.signin.ui.state
 
 import ru.vktracker.R
-import ru.vktracker.core.ui.HandleUiState
 import ru.vktracker.core.ui.resources.ProvideString
+import ru.vktracker.core.ui.state.HandleUiState
 
 /**
  * @author Danil Glazkov on 10.07.2023, 13:36

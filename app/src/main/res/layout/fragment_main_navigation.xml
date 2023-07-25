@@ -19,7 +19,7 @@
             android:layout_weight="1"
             app:navGraph="@navigation/tabs_nav_graph" />
 
-        <ru.vktracker.core.ui.view.BottomNavigationView
+        <ru.vktracker.core.ui.view.navigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

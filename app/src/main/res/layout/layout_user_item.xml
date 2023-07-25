@@ -19,7 +19,7 @@
             android:layout_height="@dimen/icon_normal"
             android:layout_gravity="center_vertical">
 
-            <ru.vktracker.core.ui.view.ImageView
+            <ru.vktracker.core.ui.view.image.ImageView
                 android:id="@+id/avatar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -28,7 +28,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <ru.vktracker.core.ui.view.TextView
+        <ru.vktracker.core.ui.view.text.SkeletonTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:paddingHorizontal="@dimen/distance_medium"
             tools:text="Username" />
 
-        <ru.vktracker.core.ui.view.ToggleButton
+        <ru.vktracker.core.ui.view.chip.ChipView
             android:id="@+id/trackButton"
             style="@style/Widget.Material3.Chip.Filter"
             android:layout_width="wrap_content"
