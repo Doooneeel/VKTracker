@@ -1,19 +1,15 @@
 package ru.vktracker.core.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import ru.vktracker.core.ui.viewmodel.BaseViewModel
 
 /**
  * @author Danil Glazkov on 23.06.2023, 17:47
  */
-abstract class BaseFragmentViewModel<VB : ViewBinding, VM : BaseViewModel>(
-    layoutId: Int,
-    inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
-) : BaseFragment<VB>(layoutId, inflate), RegisterObservers<VM> {
+abstract class BaseFragmentViewModel<VB : ViewBinding, VM : BaseViewModel>(layoutId: Int) :
+    BaseFragment<VB>(layoutId), RegisterObservers<VM> {
 
     protected abstract val viewModel: VM
 
