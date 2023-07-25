@@ -6,7 +6,7 @@ import android.os.SystemClock
 import android.util.AttributeSet
 import com.google.android.material.chip.Chip
 import ru.vktracker.core.common.text.TimeTextFormat
-import ru.vktracker.core.ui.BaseTimeTextFormat
+import ru.vktracker.core.ui.text.BaseTimeTextFormat
 import ru.vktracker.feature.login.twofactor.ui.view.timerbutton.listener.*
 import ru.vktracker.feature.login.twofactor.ui.view.timerbutton.style.ProvideTimerDeclaredStyle
 import ru.vktracker.feature.login.twofactor.ui.view.timerbutton.style.TimerDeclaredStyle

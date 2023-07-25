@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -81,16 +83,17 @@ dependencies {
 
 
     //ROOM
-    implementation 'androidx.room:room-runtime:2.5.1'
-    implementation 'androidx.room:room-ktx:2.5.1'
-    annotationProcessor 'androidx.room:room-compiler:2.5.1'
+    implementation 'androidx.room:room-runtime:2.5.2'
+    implementation 'androidx.room:room-ktx:2.5.2'
+    annotationProcessor 'androidx.room:room-compiler:2.5.2'
     //noinspection KaptUsageInsteadOfKsp
-    kapt 'androidx.room:room-compiler:2.5.1'
+    kapt 'androidx.room:room-compiler:2.5.2'
 
 
     //RETROFIT
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
 
 
     //GSON
@@ -99,6 +102,10 @@ dependencies {
 
     //PAGING
     implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
+
+
+    //BINDING DELEGATE
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9'
 
 
     //TESTS

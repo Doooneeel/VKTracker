@@ -16,7 +16,6 @@ class WelcomeModule {
 
     @Provides
     @ViewModelScoped
-    fun provideNavigationCommunication(): NavigationCommunication =
-        NavigationCommunication.Base()
+    fun provideNavigationCommunication(): NavigationCommunication = NavigationCommunication.Ui()
 
 }
