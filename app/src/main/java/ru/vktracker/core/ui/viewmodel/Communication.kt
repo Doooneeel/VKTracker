@@ -1,9 +1,8 @@
 package ru.vktracker.core.ui.viewmodel
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateHandle
+import android.os.Parcelable
+import androidx.lifecycle.*
+import ru.vktracker.core.ui.state.HandleUiState
 
 /**
  * @author Danil Glazkov on 01.06.2023, 22:05
@@ -42,14 +41,20 @@ interface Communication {
 
     abstract class SinglePost<T> : Post<T>(SingleLiveEvent())
 
-    abstract class SavedStateUi<T>(
-        savedState: SavedStateHandle,
-        key: String
-    ) : Ui<T>(savedState.getLiveData(key))
+    abstract class SavedStateUi<T : Parcelable>(savedState: SavedStateHandle, key: String) :
+        Ui<T>(savedState.getLiveData(key))
 
-    abstract class SavedStatePost<T>(
+    abstract class SavedStateUiWithHandler<T : Parcelable>(
+        handleUiState: HandleUiState<T>,
         savedState: SavedStateHandle,
         key: String
-    ) : Post<T>(savedState.getLiveData(key))
+    ) : SavedStateUi<T>(savedState, key) {
+        init {
+            val newState: T? = handleUiState.handle(liveData.value)
+            if (newState != null) {
+                this.put(newState)
+            }
+        }
+    }
 
 }

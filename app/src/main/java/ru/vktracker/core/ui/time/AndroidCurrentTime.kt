@@ -1,4 +1,4 @@
-package ru.vktracker.core.ui
+package ru.vktracker.core.ui.time
 
 import android.icu.util.Calendar
 import ru.vktracker.core.common.CurrentTime

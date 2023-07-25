@@ -6,12 +6,12 @@ import java.lang.Exception
 /**
  * @author Danil Glazkov on 10.06.2023, 08:40
  */
-interface HandleError<T> {
+interface HandleError<E : Exception, T> {
 
-    fun handle(exception: Exception): T
+    fun handle(exception: E): T
 
-    interface Unit : HandleError<kotlin.Unit>
+    interface Unit<E : Exception> : HandleError<E, kotlin.Unit>
 
-    interface Paging<T : Any> : HandleError<PagingSource.LoadResult<Int, T>>
+    interface Paging<E : Exception, T : Any> : HandleError<E, PagingSource.LoadResult<Int, T>>
 
 }
