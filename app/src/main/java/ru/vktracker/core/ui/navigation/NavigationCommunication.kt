@@ -19,6 +19,6 @@ interface NavigationCommunication : Communication.Mutable<Navigation> {
 
     interface CombineObserve : ObserveChild, ObserveMain
 
-    class Base : Communication.SingleUi<Navigation>(), NavigationCommunication
+    class Ui : Communication.SingleUi<Navigation>(), NavigationCommunication
 
 }
