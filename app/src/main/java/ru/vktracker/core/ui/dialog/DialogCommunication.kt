@@ -7,16 +7,15 @@ import ru.vktracker.core.ui.viewmodel.Communication
 /**
  * @author Danil Glazkov on 20.06.2023, 14:49
  */
-interface DialogCommunication : Communication.Mutable<AbstractDialog> {
+interface DialogCommunication : Communication.Mutable<Dialog> {
 
     interface Update {
-        fun putDialog(dialog: AbstractDialog)
+        fun putDialog(dialog: Dialog)
     }
 
     interface Observe {
-        fun observeDialog(owner: LifecycleOwner, observer: Observer<AbstractDialog>)
+        fun observeDialog(owner: LifecycleOwner, observer: Observer<Dialog>)
     }
 
-    class Base : Communication.Ui<AbstractDialog>(), DialogCommunication
-
+    class Base : Communication.Ui<Dialog>(), DialogCommunication
 }
