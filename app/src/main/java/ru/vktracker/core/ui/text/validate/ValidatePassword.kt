@@ -11,4 +11,9 @@ interface ValidatePassword : Validate<CharArray>  {
     ) : Validate.Abstract<CharArray>(message), ValidatePassword {
         override fun isValid(source: CharArray) = source.size >= minLength
     }
+
+    class NotEmpty(message: String = "") : Validate.Abstract<CharArray>(message), ValidatePassword {
+        override fun isValid(source: CharArray): Boolean =
+            source.count { it != ' ' && it != Char.MIN_VALUE } > 0
+    }
 }

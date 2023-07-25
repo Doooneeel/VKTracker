@@ -10,7 +10,7 @@ interface ValidateChain<T> : Validate<T> {
     abstract class Abstract<T>(
         private val current: Validate<T>,
         private val next: Validate<T>
-    ) : Validate<T> {
+    ) : ValidateChain<T> {
         protected var currentValid = false
 
         override fun errorMessage(): Message = if (currentValid) {
@@ -40,8 +40,9 @@ interface ValidateChain<T> : Validate<T> {
             if (nextValid || currentValid) Message.Empty else super.errorMessage()
 
         override fun isValid(source: T): Boolean {
-            if (current.isValid(source)) { currentValid = true }
-            if (next.isValid(source)) { nextValid = true }
+            currentValid = current.isValid(source)
+            nextValid = next.isValid(source)
+
             return currentValid || nextValid
         }
     }
