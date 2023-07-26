@@ -2,9 +2,12 @@ package ru.vktracker.core.ui.dialog
 
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import ru.vktracker.R
+import ru.vktracker.core.ui.SingleLifecycleEventObserver
 
 /**
  * @author Danil Glazkov on 20.06.2023, 14:47
@@ -27,6 +30,13 @@ interface Dialog {
                 setup(view)
                 create()
             }
+
+            view.findViewTreeLifecycleOwner()?.let { owner: LifecycleOwner ->
+                owner.lifecycle.addObserver(
+                    SingleLifecycleEventObserver.Destroy { dialog.dismiss() }
+                )
+            }
+
             dialog.show()
         }
     }
