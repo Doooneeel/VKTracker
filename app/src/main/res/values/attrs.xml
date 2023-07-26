@@ -43,7 +43,7 @@
         <attr name="timerDisableWhenCounting" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="SkeletonTextView">
+    <declare-styleable name="Skeleton">
         <attr name="enableSkeleton" format="boolean" />
     </declare-styleable>
 

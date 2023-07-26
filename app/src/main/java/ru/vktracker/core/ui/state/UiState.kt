@@ -1,7 +1,7 @@
 package ru.vktracker.core.ui.state
 
 import android.os.Parcelable
-import androidx.viewbinding.ViewBinding
+import kotlinx.parcelize.Parcelize
 
 /**
  * @author Danil Glazkov on 09.07.2023, 21:46
@@ -11,7 +11,7 @@ interface UiState<T> : Parcelable {
     fun update(view: T)
 
 
-    abstract class AbstractNothing<T : ViewBinding> : UiState<T> {
+    abstract class AbstractNothing<T> : UiState<T> {
         override fun update(view: T) = Unit
     }
 
@@ -35,5 +35,8 @@ interface UiState<T> : Parcelable {
             showDialog(view)
         }
     }
+
+    @Parcelize
+    class Nothing<T> : AbstractNothing<T>()
 
 }
