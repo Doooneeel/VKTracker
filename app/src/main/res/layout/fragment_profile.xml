@@ -9,8 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ru.vktracker.core.ui.view.ImageView
+        <ru.vktracker.core.ui.view.image.ImageView
             android:id="@+id/avatarImageView"
+            app:enableSkeleton="true"
             android:layout_width="@dimen/icon_normal"
             android:layout_height="@dimen/icon_normal"
             android:layout_margin="@dimen/distance_medium"
@@ -23,18 +24,14 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ru.vktracker.core.ui.view.TextView
+            <ru.vktracker.core.ui.view.text.SkeletonTextView
                 android:id="@+id/usernameTextView"
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="1"
-                android:scrollHorizontally="true"
+                style="@style/MarqueeTextStyle"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                app:enableSkeleton="true"
                 tools:text="######## ########" />
 
-            <ru.vktracker.core.ui.view.TextView
+            <ru.vktracker.core.ui.view.text.SkeletonTextView
                 android:id="@+id/userIdTextView"
                 style="@style/TextAppearance.Material3.BodySmall"
                 android:layout_width="match_parent"
@@ -43,6 +40,7 @@
                 android:layout_marginEnd="@dimen/distance_medium"
                 android:singleLine="true"
                 android:textStyle="bold"
+                app:enableSkeleton="true"
                 tools:text="########" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -60,53 +58,52 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Material3.CardView.Outlined"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/distance_medium"
-        android:layout_marginTop="@dimen/distance_medium"
-        app:cardElevation="2dp"
-        app:strokeColor="?attr/colorOnSecondaryFixedVariant">
+        android:layout_height="match_parent"
+        android:overScrollMode="always"
+        android:paddingTop="@dimen/distance_normal">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Outlined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="@dimen/distance_normal"
+            app:cardElevation="2dp"
+            app:strokeColor="?attr/colorOnSecondaryFixedVariant">
 
-            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
-                android:id="@+id/settingsMenuItemLayout"
-                style="@style/ProfileMenuItemStyle"
-                app:descriptionText="@string/settings_description"
-                app:icon="@drawable/ic_settings_outline"
-                app:titleText="@string/settings" />
-
-            <com.google.android.material.divider.MaterialDivider
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerColor="?attr/colorOnSecondaryFixedVariant" />
+                android:orientation="vertical">
 
-            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
-                android:id="@+id/statisticsMenuItemLayout"
-                style="@style/ProfileMenuItemStyle"
-                app:descriptionText="@string/statistics_description"
-                app:icon="@drawable/ic_leaderboard_outline"
-                app:titleText="@string/statistics" />
+                <include
+                    android:id="@+id/settingsMenuItemLayout"
+                    layout="@layout/layout_profile_menu_item" />
 
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:dividerColor="?attr/colorOnSecondaryFixedVariant" />
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorOnSecondaryFixedVariant" />
 
-            <ru.vktracker.feature.profile.ui.view.ProfileMenuItemLayout
-                android:id="@+id/aboutAppMenuItemLayout"
-                style="@style/ProfileMenuItemStyle"
-                app:descriptionText="@string/app_version"
-                app:icon="@drawable/ic_info_outline"
-                app:titleText="@string/about_app" />
+                <include
+                    android:id="@+id/statisticsMenuItemLayout"
+                    layout="@layout/layout_profile_menu_item" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="?attr/colorOnSecondaryFixedVariant" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <include
+                    android:id="@+id/aboutMenuitemLayout"
+                    layout="@layout/layout_profile_menu_item" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

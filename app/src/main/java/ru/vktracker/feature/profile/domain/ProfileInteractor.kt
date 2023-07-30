@@ -7,14 +7,14 @@ import ru.vktracker.core.common.user.User
  */
 interface ProfileInteractor {
 
-    suspend fun fetchProfile(profile: (User) -> Unit)
+    suspend fun fetchProfile(profile: suspend (User) -> Unit)
 
 
     class Base (private val repository: ProfileRepository) : ProfileInteractor {
 
         private val errorProfile = User.Empty
 
-        override suspend fun fetchProfile(profile: (User) -> Unit) {
+        override suspend fun fetchProfile(profile: suspend (User) -> Unit) {
             val cachedProfile = runCatching { repository.cachedProfile() }.getOrDefault(errorProfile)
             profile.invoke(cachedProfile)
 

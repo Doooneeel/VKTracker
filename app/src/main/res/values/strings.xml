@@ -2,8 +2,6 @@
 
     <!--COMMON-->
     <string name="app_name">VK Tracker</string>
-    <string name="app_version">VK T 1.0</string>
-    <string name="about_app">О приложении</string>
 
 
     <string name="settings">Настройки</string>
@@ -11,6 +9,10 @@
 
     <string name="statistics">Статистика</string>
     <string name="statistics_description">Информация об отслеживании</string>
+
+    <string name="app_version">VK T 1.0</string>
+    <string name="about_app">О приложении</string>
+
 
 
     <string name="friends">Друзья</string>

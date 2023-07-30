@@ -1,11 +1,13 @@
 package ru.vktracker.feature.profile.ui
 
-import ru.vktracker.core.ui.view.AbstractView.*
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import ru.vktracker.core.ui.view.common.AbstractView.*
 
 /**
  * @author Danil Glazkov on 17.06.2023, 07:15
  */
-interface ProfileUi {
+interface ProfileUi : Parcelable {
 
     fun <T> map(mapper: Mapper<T>): T
 
@@ -16,7 +18,8 @@ interface ProfileUi {
     fun apply(id: Text, name: Text, avatar: ImageUrl)
 
 
-    data class Base (
+    @Parcelize
+    class Base (
         private val id: String,
         private val name: String,
         private val avatar: String,
@@ -31,12 +34,12 @@ interface ProfileUi {
         }
     }
 
-
+    @Parcelize
     object Error : ProfileUi {
 
-        override fun apply(id: Text, name: Text, avatar: ImageUrl) = Unit
+        override fun apply(id: Text, name: Text, avatar: ImageUrl) = avatar.load("")
 
-        override fun <T> map(mapper: Mapper<T>): T = mapper.map("", "", "")
+        override fun <T> map(mapper: Mapper<T>): T = mapper.map("id", "", "")
 
     }
 
