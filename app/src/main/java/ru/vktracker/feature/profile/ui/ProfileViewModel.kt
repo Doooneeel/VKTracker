@@ -1,83 +1,68 @@
 package ru.vktracker.feature.profile.ui
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.vktracker.core.common.CoroutineDispatchers
-import ru.vktracker.core.ui.BaseViewModel
-import ru.vktracker.core.ui.Communication
-import ru.vktracker.core.ui.dialog.AbstractAlertDialog
-import ru.vktracker.core.ui.dialog.AlertDialogCommunication
-import ru.vktracker.core.ui.navigation.Screen
-import ru.vktracker.core.ui.navigation.ScreenCommunication
-import ru.vktracker.feature.profile.di.ProfileModule.*
+import ru.vktracker.core.common.Logout
+import ru.vktracker.core.common.user.User
+import ru.vktracker.core.ui.dialog.DialogEvent
+import ru.vktracker.core.ui.viewmodel.BaseViewModel
 import ru.vktracker.feature.profile.domain.ProfileInteractor
-import ru.vktracker.feature.profile.ui.nabigation.ProfileNavigation
+import ru.vktracker.feature.profile.ui.dialog.LogoutDialog
+import ru.vktracker.feature.profile.ui.navigation.ProfileNavigation
+import ru.vktracker.feature.profile.ui.state.ProfileUiState
 import javax.inject.Inject
 
 /**
  * @author Danil Glazkov on 17.06.2023, 06:40
  */
-interface ProfileViewModel : BaseViewModel, ProfileUiCommunication.Observe, ProfileNavigation,
-    ScreenCommunication.Observe {
+interface ProfileViewModel {
 
-    fun observeLogoutDialog(owner: LifecycleOwner, observer: Observer<AbstractAlertDialog>)
+    interface Fragment : BaseViewModel, ProfileNavigation.External, LogoutDialog.Show,
+        ProfileCommunications.Observe
 
-    fun showLogoutDialog()
+    interface Dialog {
+        fun logoutDialogEvent(event: DialogEvent<*>)
+    }
+
+    interface Combined : Fragment, Dialog
 
 
     @HiltViewModel
     class Base @Inject constructor(
         private val interactor: ProfileInteractor,
-        @ModuleQualifier
-        private val screenCommunication: Communication.Observe<Screen>,
-        private val profileNavigation: ProfileNavigation,
-        private val communication: ProfileUiCommunication,
-        @ModuleQualifier
-        private val logoutDialogCommunication: AlertDialogCommunication,
-        private val handleDomainRequest: ProfileHandleDomainRequest,
+        private val communications: ProfileCommunications.Combined,
+        private val mapperToUi: UserToProfileUiMapper,
+        private val navigation: ProfileNavigation.Combined,
+        private val logout: Logout,
         dispatchers: CoroutineDispatchers,
     ) : BaseViewModel.Abstract(dispatchers),
-        ProfileViewModel,
-        ProfileNavigation by profileNavigation
+        ProfileCommunications.Observe by communications,
+        ProfileNavigation.External by navigation,
+        Combined
     {
-        //todo fix
-        private var needToShowLogoutDialog = false
-        private val onCancel = {
-            needToShowLogoutDialog = false
-        }
-
-        private val logoutAlertDialog = LogoutAlertDialog(onCancel) {
-            /* todo logout */
-        }
-
-        override fun init(isFistRun: Boolean) {
-            if (isFistRun) handleDomainRequest.handleBlock(viewModelScope) { handler ->
-                interactor.fetchProfile(handler)
-            }
-
-            if (needToShowLogoutDialog) {
-                showLogoutDialog()
+        override fun logoutDialogEvent(event: DialogEvent<*>) {
+            if (event is DialogEvent.Confirm) {
+                navigation.navigateToWelcome()
+                logout.logout()
             }
         }
 
-        override fun showLogoutDialog() {
-            needToShowLogoutDialog = true
-            logoutDialogCommunication.put(logoutAlertDialog)
+        override fun showLogoutDialog() = communications.showDialog(
+            LogoutDialog.Base()
+        )
+
+        override fun firstRunInit() {
+            viewModelScope.launchIO {
+                interactor.fetchProfile { user: User ->
+                    val profileUi: ProfileUi = user.map(mapperToUi)
+                    val uiState = ProfileUiState.Initial(profileUi)
+
+                    changeToUi {
+                        communications.put(uiState)
+                    }
+                }
+            }
         }
-
-        override fun observeLogoutDialog(
-            owner: LifecycleOwner,
-            observer: Observer<AbstractAlertDialog>
-        ) = logoutDialogCommunication.observe(owner, observer)
-
-        override fun observeProfileUi(owner: LifecycleOwner, observer: Observer<ProfileUi>) =
-            communication.observe(owner, observer)
-
-        override fun observeScreen(owner: LifecycleOwner, observer: Observer<Screen>) =
-            screenCommunication.observe(owner, observer)
     }
-
 }
-
